@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SectionHeader from './SectionHeader.tsx';
 
 const Contact: React.FC = () => {
@@ -7,6 +7,23 @@ const Contact: React.FC = () => {
     email: '',
     message: ''
   });
+  
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsFormVisible(true);
+      }
+    }, { threshold: 0.1 });
+
+    if (formRef.current) {
+      observer.observe(formRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/kamal-420", icon: "github" },
@@ -119,8 +136,11 @@ const Contact: React.FC = () => {
 
         <div className="lg:col-span-3">
           <form 
+            ref={formRef}
             onSubmit={handleSubmit} 
-            className="royal-card relative p-10 md:p-14 rounded-[3rem] bg-zinc-950/60 backdrop-blur-md border border-[#D4AF37]/20 space-y-8 overflow-hidden group shadow-2xl"
+            className={`royal-card relative p-10 md:p-14 rounded-[3rem] bg-zinc-950/60 backdrop-blur-md border border-[#D4AF37]/20 space-y-8 overflow-hidden group shadow-2xl transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) ${
+              isFormVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
+            }`}
           >
             {/* Inner Animated Card Background Layer */}
             <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-700">
@@ -137,7 +157,7 @@ const Contact: React.FC = () => {
                   required
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 transition-all placeholder:text-zinc-600"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 focus:shadow-[0_0_15px_rgba(212,175,55,0.15)] transition-all duration-300 placeholder:text-zinc-600"
                   placeholder="Your Name"
                 />
               </div>
@@ -149,7 +169,7 @@ const Contact: React.FC = () => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 transition-all placeholder:text-zinc-600"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 focus:shadow-[0_0_15px_rgba(212,175,55,0.15)] transition-all duration-300 placeholder:text-zinc-600"
                   placeholder="your@email.com"
                 />
               </div>
@@ -162,16 +182,16 @@ const Contact: React.FC = () => {
                 rows={5}
                 value={formData.message}
                 onChange={handleInputChange}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 transition-all resize-none placeholder:text-zinc-600"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 focus:shadow-[0_0_15px_rgba(212,175,55,0.15)] transition-all duration-300 resize-none placeholder:text-zinc-600"
                 placeholder="What is your quest?"
               ></textarea>
             </div>
             <button 
               type="submit"
-              className="relative z-10 w-full py-5 bg-[#D4AF37] text-[#0a0a2e] font-black uppercase tracking-[0.2em] rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_10px_30px_-10px_rgba(212,175,55,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(212,175,55,0.8)] overflow-hidden group/btn"
+              className="relative z-10 w-full py-5 bg-[#D4AF37] text-[#0a0a2e] font-black uppercase tracking-[0.2em] rounded-2xl hover:scale-[1.02] focus:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:ring-offset-2 focus:ring-offset-[#0a0a2e] active:scale-95 transition-all shadow-[0_10px_30px_-10px_rgba(212,175,55,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(212,175,55,0.8)] overflow-hidden group/btn"
             >
               <span className="relative z-10">Dispatch Message</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 group-focus/btn:translate-y-0 transition-transform duration-300"></div>
             </button>
           </form>
         </div>

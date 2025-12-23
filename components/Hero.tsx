@@ -57,12 +57,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   }, [typedText, isDeleting, roleIndex]);
 
   const handleResumeDownload = () => {
-    // Resume link - formatted to favor a download behavior in the browser context
     const resumeUrl = 'https://github.com/kamal-420';
     const link = document.createElement('a');
     link.href = resumeUrl;
     link.target = '_blank';
-    link.download = 'Kamalesh_S_Resume.pdf'; // Suggested filename
+    link.download = 'Kamalesh_S_Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -111,7 +110,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             </p>
           </div>
           
-          {/* Uniform Action Grid - All buttons sized exactly the same */}
+          {/* Uniform Action Grid - Perfectly sized buttons */}
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full lg:max-w-4xl">
             <button 
               onClick={() => onNavigate('projects')}
@@ -138,13 +137,12 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* 3D Profile Image Column */}
+        {/* Profile Image Column */}
         <div 
           className="flex justify-center order-1 lg:order-2"
           style={{ transform: `translateY(${scrollY * -0.04}px)` }}
         >
           <div className="relative group scale-95 lg:scale-125">
-            {/* Ornate Frames */}
             <div className="absolute inset-[-30px] border border-[#D4AF37]/5 rounded-full animate-[spin_30s_linear_infinite] pointer-events-none"></div>
             <div className="absolute inset-[-15px] border border-[#D4AF37]/15 rounded-full animate-[spin_20s_linear_infinite_reverse] pointer-events-none"></div>
             <div className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/30 shadow-[0_0_80px_rgba(212,175,55,0.2)] animate-pulse"></div>

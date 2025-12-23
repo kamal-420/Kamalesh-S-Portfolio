@@ -110,11 +110,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             </p>
           </div>
           
-          {/* Uniform Action Grid - Perfectly sized buttons */}
+          {/* Uniform Action Grid */}
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full lg:max-w-4xl">
             <button 
               onClick={() => onNavigate('projects')}
-              className="group relative h-[72px] bg-[#D4AF37] text-[#050510] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#c4a030] transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.5)] active:scale-95 overflow-hidden flex items-center justify-center w-full"
+              className="group relative h-[64px] bg-[#D4AF37] text-[#050510] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#c4a030] transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.4)] active:scale-95 overflow-hidden flex items-center justify-center w-full"
             >
               <span className="relative z-10">Explore</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -122,15 +122,15 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             
             <button 
               onClick={handleResumeDownload}
-              className="group flex items-center justify-center gap-2 h-[72px] border-2 border-[#D4AF37]/40 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all active:scale-95 glass w-full"
+              className="group flex items-center justify-center gap-2 h-[64px] border-2 border-[#D4AF37]/40 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all active:scale-95 glass w-full"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform shrink-0 text-[#D4AF37]"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Download Resume</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#D4AF37] group-hover:translate-y-0.5 transition-transform"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Resume</span>
             </button>
 
             <button 
               onClick={() => onNavigate('contact')}
-              className="h-[72px] border border-[#D4AF37]/20 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all active:scale-95 glass flex items-center justify-center w-full"
+              className="h-[64px] border border-white/10 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-white/5 hover:border-[#D4AF37]/40 transition-all active:scale-95 glass flex items-center justify-center w-full"
             >
               <span>Contact</span>
             </button>

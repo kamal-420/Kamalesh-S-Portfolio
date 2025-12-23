@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import SectionHeader from './SectionHeader';
+import SectionHeader from './SectionHeader.tsx';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({

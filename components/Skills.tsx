@@ -1,6 +1,5 @@
-
 import React from 'react';
-import SectionHeader from './SectionHeader';
+import SectionHeader from './SectionHeader.tsx';
 
 const Skills: React.FC = () => {
   const academicSkills = [

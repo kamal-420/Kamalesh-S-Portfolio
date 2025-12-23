@@ -48,7 +48,6 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen selection:bg-[#D4AF37]/40 relative bg-transparent">
       <PageTransitionOverlay isTransitioning={isTransitioning} />
-      {/* Fix: Capitalized component name to match React standards and fixed previous lowercase error */}
       <ScrollProgressBar />
       <CursorTrail />
       <Navbar onNavigate={handleNavigate} />
@@ -59,7 +58,6 @@ const App: React.FC = () => {
         </section>
         
         <div className="max-w-6xl mx-auto px-6 lg:px-8 space-y-64 pb-32">
-          {/* Reconstructed truncated sections based on project structure */}
           <section id="about">
             <ScrollReveal>
               <About />
@@ -103,5 +101,4 @@ const App: React.FC = () => {
   );
 };
 
-// Fix: Added missing default export to resolve index.tsx module error
 export default App;

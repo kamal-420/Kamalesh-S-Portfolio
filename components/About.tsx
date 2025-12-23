@@ -1,6 +1,5 @@
-
 import React from 'react';
-import SectionHeader from './SectionHeader';
+import SectionHeader from './SectionHeader.tsx';
 
 const About: React.FC = () => {
   return (

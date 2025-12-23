@@ -4,8 +4,8 @@ import SectionHeader from './SectionHeader.tsx';
 const Projects: React.FC = () => {
   const project = {
     title: "Responsive Web Development Using Frontend Technologies",
-    description: "Built a mobile-friendly, responsive website using HTML, CSS, JavaScript, and Bootstrap. Ensured clean UI, cross-browser support, and optimization for the highest performance standards.",
-    tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Git/GitHub", "React", "VS Code"],
+    description: "Developed a responsive, user-friendly website with HTML, CSS, JavaScript, and Bootstrap, ensuring clean UI, cross-browser compatibility, and mobile optimization.",
+    tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Git & GitHub", "React", "VS Code"],
     link: "https://github.com/kamal-420"
   };
 
@@ -41,7 +41,7 @@ const Projects: React.FC = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-4 px-8 py-4 bg-white text-zinc-950 font-black rounded-2xl hover:bg-[#D4AF37] transition-all hover:scale-105"
               >
-                <span>View My GitHub</span>
+                <span>View Project on GitHub</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
               </a>
             </div>

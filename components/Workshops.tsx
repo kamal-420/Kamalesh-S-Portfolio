@@ -4,14 +4,14 @@ import SectionHeader from './SectionHeader.tsx';
 const Workshops: React.FC = () => {
   const workshops = [
     {
-      title: "AR/VR Immersion",
-      description: "Hands-on training in AR/VR fundamentals, 3D interaction, and immersive content creation using industry-leading toolsets.",
-      meta: "Advanced Certification"
+      title: "Workshop on AR/VR",
+      description: "Gained hands-on experience in AR/VR fundamentals, 3D interaction, and immersive content creation with real-world applications.",
+      meta: "Interactive Fundamentals"
     },
     {
-      title: "Sense-to-Cloud IoT",
-      description: "End-to-end IoT solutions with Raspberry Pi & AWS, covering sensor integration, cloud connectivity, and real-time data monitoring.",
-      meta: "Cloud Architecture"
+      title: "Sense-to-Cloud (IoT with Raspberry Pi & AWS)",
+      description: "Built end-to-end IoT solutions using Raspberry Pi and AWS, covering sensor integration, cloud connectivity, and real-time monitoring.",
+      meta: "Cloud & IoT"
     }
   ];
 

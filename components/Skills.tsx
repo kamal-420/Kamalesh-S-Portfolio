@@ -5,7 +5,7 @@ const Skills: React.FC = () => {
   const academicSkills = [
     { category: 'Programming', items: ['Python', 'Java', 'C', 'HTML', 'CSS', 'JS'] },
     { category: 'Web', items: ['HTML', 'CSS', 'JavaScript'] },
-    { category: 'Tools & Platform', items: ['MS Excel', 'Word', 'PowerPoint', 'Visual Studio', 'CapCut'] },
+    { category: 'Tools & Platform', items: ['MS Excel', 'MS Word', 'PowerPoint', 'Visual Studio', 'CapCut (Video Editing)'] },
     { category: 'Core Concepts', items: ['Data Structures', 'OOPs Concept', 'DBMS'] },
   ];
 

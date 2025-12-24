@@ -54,17 +54,12 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     );
 
     return () => clearTimeout(timer);
-  }, [typedText, isDeleting, roleIndex]);
+  }, [typedText, isDeleting, roleIndex, roles]);
 
   const handleResumeDownload = () => {
-    const resumeUrl = 'https://github.com/kamal-420';
-    const link = document.createElement('a');
-    link.href = resumeUrl;
-    link.target = '_blank';
-    link.download = 'Kamalesh_S_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Google Drive direct download link derived from provided file ID: 1QReNVPbV-TKcv3ZNF_WvBqwOvs_NaxrM
+    const resumeDownloadUrl = 'https://drive.google.com/uc?export=download&id=1QReNVPbV-TKcv3ZNF_WvBqwOvs_NaxrM';
+    window.open(resumeDownloadUrl, '_blank');
   };
 
   return (
@@ -81,12 +76,12 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         style={{ transform: `translateY(${scrollY * -0.06}px)` }}
       ></div>
 
-      <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-40 items-center relative z-10">
         
         {/* Text Content Column */}
         <div 
           className="text-center lg:text-left order-2 lg:order-1 flex flex-col items-center lg:items-start transition-all duration-700"
-          style={{ transform: `translateY(${scrollY * 0.03}px)` }}
+          style={{ transform: `translateY(${scrollY * 0.02}px)` }}
         >
           <div className="inline-flex items-center gap-3 mb-10">
             <span className="w-16 h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37]"></span>
@@ -96,7 +91,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <span className="w-16 h-[1px] bg-gradient-to-l from-transparent to-[#D4AF37]"></span>
           </div>
           
-          <h1 className="royal-text text-7xl md:text-8xl lg:text-[9.5rem] font-black leading-[0.85] mb-10 relative">
+          <h1 className="royal-text text-6xl md:text-8xl lg:text-7xl xl:text-[7.5rem] font-black leading-[0.85] mb-10 relative">
             KAMALESH<br />
             <span className="text-[#D4AF37] relative inline-block">
               .S
@@ -105,16 +100,16 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </h1>
 
           <div className="h-12 flex items-center mb-6">
-            <p className="text-xl md:text-2xl lg:text-3xl text-zinc-400 font-medium tracking-tight">
+            <p className="text-xl md:text-2xl lg:text-2xl xl:text-3xl text-zinc-400 font-medium tracking-tight">
               Crafting <span className="text-[var(--text-primary)] border-r-2 border-[#D4AF37] pr-3 animate-pulse font-bold">{typedText}</span>
             </p>
           </div>
           
-          {/* Uniform Action Grid */}
-          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full lg:max-w-4xl">
+          {/* Action Grid */}
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
             <button 
               onClick={() => onNavigate('projects')}
-              className="group relative h-[68px] bg-[#D4AF37] text-[#050510] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#c4a030] transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.4)] active:scale-95 overflow-hidden flex items-center justify-center w-full"
+              className="group relative h-[68px] bg-[#D4AF37] text-[#050510] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#c4a030] transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.4)] active:scale-95 overflow-hidden flex items-center justify-center"
             >
               <span className="relative z-10">Explore</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -122,7 +117,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             
             <button 
               onClick={handleResumeDownload}
-              className="group flex items-center justify-center gap-2 h-[68px] border-2 border-[#D4AF37]/40 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all active:scale-95 glass w-full"
+              className="group flex items-center justify-center gap-2 h-[68px] border-2 border-[#D4AF37]/40 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all active:scale-95 glass"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#D4AF37] group-hover:translate-y-0.5 transition-transform"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
               <span>Resume</span>
@@ -130,7 +125,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
             <button 
               onClick={() => onNavigate('contact')}
-              className="h-[68px] border border-white/10 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-white/5 hover:border-[#D4AF37]/40 transition-all active:scale-95 glass flex items-center justify-center w-full"
+              className="h-[68px] border border-white/10 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-white/5 hover:border-[#D4AF37]/40 transition-all active:scale-95 glass flex items-center justify-center"
             >
               <span>Contact</span>
             </button>
@@ -140,14 +135,14 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         {/* Profile Image Column */}
         <div 
           className="flex justify-center order-1 lg:order-2"
-          style={{ transform: `translateY(${scrollY * -0.04}px)` }}
+          style={{ transform: `translateY(${scrollY * -0.03}px)` }}
         >
-          <div className="relative group scale-95 lg:scale-125">
+          <div className="relative group scale-90 lg:scale-100 xl:scale-110">
             <div className="absolute inset-[-30px] border border-[#D4AF37]/5 rounded-full animate-[spin_30s_linear_infinite] pointer-events-none"></div>
             <div className="absolute inset-[-15px] border border-[#D4AF37]/15 rounded-full animate-[spin_20s_linear_infinite_reverse] pointer-events-none"></div>
             <div className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/30 shadow-[0_0_80px_rgba(212,175,55,0.2)] animate-pulse"></div>
 
-            <div className="w-80 h-80 md:w-96 md:h-96 relative z-10 p-4 rounded-full bg-gradient-to-tr from-[#D4AF37]/30 via-transparent to-[#D4AF37]/30">
+            <div className="w-72 h-72 md:w-96 md:h-96 relative z-10 p-4 rounded-full bg-gradient-to-tr from-[#D4AF37]/30 via-transparent to-[#D4AF37]/30">
               <div className="w-full h-full rounded-full overflow-hidden border-4 border-[#D4AF37]/60 relative shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] transition-transform duration-1000 group-hover:scale-[1.04] bg-[#050510]">
                 <img 
                   src="https://lh3.googleusercontent.com/d/1LJ_XoEmBCYSHXg_v1H4640f874XjW578" 

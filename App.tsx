@@ -33,7 +33,9 @@ const App: React.FC = () => {
           top: offsetPosition,
           behavior: 'auto' // Instant scroll behind the curtain
         });
-        window.history.pushState(null, '', `#${id}`);
+        
+        // Removed history.pushState to avoid SecurityErrors in sandboxed environments
+        // Instead, just scrolling is enough for this single-page preview context
       } else if (id === 'hero') {
         window.scrollTo({ top: 0, behavior: 'auto' });
       }

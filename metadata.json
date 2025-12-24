@@ -1,5 +1,10 @@
 {
-  "name": "Kamalesh S Portfolio",
-  "description": "A modern, responsive personal portfolio for Kamalesh S, a B.Tech IT student focusing on Frontend and Cloud technologies.",
+  "name": "Kamalesh S | Royal Portfolio",
+  "short_name": "KamaleshS",
+  "description": "Personal Portfolio of Kamalesh S, B.Tech IT student & Frontend Architect.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#050510",
+  "theme_color": "#D4AF37",
   "requestFramePermissions": []
 }

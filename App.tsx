@@ -5,6 +5,7 @@ import About from './components/About.tsx';
 import Education from './components/Education.tsx';
 import Skills from './components/Skills.tsx';
 import Projects from './components/Projects.tsx';
+import Certifications from './components/Certifications.tsx';
 import Workshops from './components/Workshops.tsx';
 import Contact from './components/Contact.tsx';
 import ScrollToTop from './components/ScrollToTop.tsx';
@@ -31,11 +32,8 @@ const App: React.FC = () => {
 
         window.scrollTo({
           top: offsetPosition,
-          behavior: 'auto' // Instant scroll behind the curtain
+          behavior: 'auto' 
         });
-        
-        // Removed history.pushState to avoid SecurityErrors in sandboxed environments
-        // Instead, just scrolling is enough for this single-page preview context
       } else if (id === 'hero') {
         window.scrollTo({ top: 0, behavior: 'auto' });
       }
@@ -81,6 +79,12 @@ const App: React.FC = () => {
           <section id="projects">
             <ScrollReveal delay={100}>
               <Projects />
+            </ScrollReveal>
+          </section>
+
+          <section id="certifications">
+            <ScrollReveal delay={100}>
+              <Certifications />
             </ScrollReveal>
           </section>
 

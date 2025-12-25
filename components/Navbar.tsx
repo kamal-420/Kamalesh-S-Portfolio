@@ -22,6 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
     { name: 'Education', id: 'education' },
     { name: 'Skills', id: 'skills' },
     { name: 'Projects', id: 'projects' },
+    { name: 'Certs', id: 'certifications' },
     { name: 'Workshops', id: 'workshops' },
     { name: 'Contact', id: 'contact' },
   ];
@@ -51,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
         </a>
         
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-10">
+        <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => (
             <a
               key={item.name}

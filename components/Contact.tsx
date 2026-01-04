@@ -99,7 +99,7 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-widest font-black text-zinc-500 mb-0.5">Tele-Comm</p>
-                <p className="text-white font-bold text-base">9677643687</p>
+                <p className="text-white font-bold text-base">+91 9677643687</p>
               </div>
             </a>
             

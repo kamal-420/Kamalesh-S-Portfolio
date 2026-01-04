@@ -36,7 +36,7 @@ const Projects: React.FC = () => {
           <div className="lg:w-3/5 p-10 md:p-16 flex flex-col justify-center">
             <div className="mb-4 flex items-center gap-2">
               <span className="w-8 h-[1px] bg-[#D4AF37]"></span>
-              <span className="text-[10px] uppercase tracking-[0.4em] font-black text-[#D4AF37]">Web Excellence</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-black text-[#D4AF37]">Web Architecture</span>
             </div>
             
             <h3 className="royal-text text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-6 group-hover:text-[#D4AF37] transition-colors leading-tight">

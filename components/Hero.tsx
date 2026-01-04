@@ -12,10 +12,10 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const [scrollY, setScrollY] = useState(0);
   
   const roles = [
-    "Digital Architect",
-    "Frontend Developer",
+    "Frontend Architect",
+    "Software Developer",
     "Cloud Enthusiast",
-    "Creative Problem Solver"
+    "Data Science Student"
   ];
 
   const typingSpeed = 100;
@@ -54,10 +54,10 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     );
 
     return () => clearTimeout(timer);
-  }, [typedText, isDeleting, roleIndex, roles]);
+  }, [typedText, isDeleting, roleIndex]);
 
   const handleResumeDownload = () => {
-    // Google Drive direct download link derived from provided file ID: 1QReNVPbV-TKcv3ZNF_WvBqwOvs_NaxrM
+    // Verified Google Drive direct download link
     const resumeDownloadUrl = 'https://drive.google.com/uc?export=download&id=1QReNVPbV-TKcv3ZNF_WvBqwOvs_NaxrM';
     window.open(resumeDownloadUrl, '_blank');
   };
@@ -66,7 +66,6 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     <div className="relative min-h-[100svh] flex items-center justify-center overflow-hidden py-24 lg:py-0">
       <Particles />
       
-      {/* Dynamic Background Ambiance */}
       <div 
         className="absolute top-1/4 left-[5%] w-[45vw] h-[45vw] bg-[#D4AF37]/5 rounded-full blur-[140px] pointer-events-none animate-pulse"
         style={{ transform: `translateY(${scrollY * 0.1}px)` }}
@@ -78,7 +77,6 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
       <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-40 items-center relative z-10">
         
-        {/* Text Content Column */}
         <div 
           className="text-center lg:text-left order-2 lg:order-1 flex flex-col items-center lg:items-start transition-all duration-700"
           style={{ transform: `translateY(${scrollY * 0.02}px)` }}
@@ -86,7 +84,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           <div className="inline-flex items-center gap-3 mb-10">
             <span className="w-16 h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37]"></span>
             <p className="text-[#D4AF37] font-bold tracking-[0.7em] uppercase text-[10px]">
-              Master of Forge
+              The Royal Archive
             </p>
             <span className="w-16 h-[1px] bg-gradient-to-l from-transparent to-[#D4AF37]"></span>
           </div>
@@ -101,17 +99,16 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
           <div className="h-12 flex items-center mb-6">
             <p className="text-xl md:text-2xl lg:text-2xl xl:text-3xl text-zinc-400 font-medium tracking-tight">
-              Crafting <span className="text-[var(--text-primary)] border-r-2 border-[#D4AF37] pr-3 animate-pulse font-bold">{typedText}</span>
+              Building <span className="text-[var(--text-primary)] border-r-2 border-[#D4AF37] pr-3 animate-pulse font-bold">{typedText}</span>
             </p>
           </div>
           
-          {/* Action Grid */}
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
             <button 
               onClick={() => onNavigate('projects')}
               className="group relative h-[68px] bg-[#D4AF37] text-[#050510] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#c4a030] transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.4)] active:scale-95 overflow-hidden flex items-center justify-center"
             >
-              <span className="relative z-10">Explore</span>
+              <span className="relative z-10">Works</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
             
@@ -120,19 +117,18 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               className="group flex items-center justify-center gap-2 h-[68px] border-2 border-[#D4AF37]/40 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all active:scale-95 glass"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#D4AF37] group-hover:translate-y-0.5 transition-transform"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Resume</span>
+              <span>Download CV</span>
             </button>
 
             <button 
               onClick={() => onNavigate('contact')}
               className="h-[68px] border border-white/10 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-white/5 hover:border-[#D4AF37]/40 transition-all active:scale-95 glass flex items-center justify-center"
             >
-              <span>Contact</span>
+              <span>Summons</span>
             </button>
           </div>
         </div>
 
-        {/* Profile Image Column */}
         <div 
           className="flex justify-center order-1 lg:order-2"
           style={{ transform: `translateY(${scrollY * -0.03}px)` }}
@@ -155,10 +151,6 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#D4AF37]/30 to-transparent opacity-60"></div>
               </div>
             </div>
-
-            <div className="absolute -top-6 -right-6 w-16 h-16 bg-[#050510] border-2 border-[#D4AF37] rounded-full flex items-center justify-center text-[#D4AF37] shadow-2xl animate-bounce">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            </div>
           </div>
         </div>
       </div>
@@ -168,7 +160,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         style={{ opacity: scrollY > 100 ? 0 : 1 }}
         onClick={() => onNavigate('about')}
       >
-        <span className="text-[9px] uppercase tracking-[0.7em] text-zinc-500 font-bold group-hover:text-[#D4AF37] transition-colors">Royal Descent</span>
+        <span className="text-[9px] uppercase tracking-[0.7em] text-zinc-500 font-bold group-hover:text-[#D4AF37] transition-colors">Scroll Down</span>
         <div className="w-6 h-10 border border-[#D4AF37]/20 rounded-full flex justify-center p-2 glass">
           <div className="w-1.5 h-2.5 bg-[#D4AF37] rounded-full animate-scroll-minimal shadow-[0_0_10px_#D4AF37]"></div>
         </div>

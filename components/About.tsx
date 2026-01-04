@@ -14,7 +14,7 @@ const About: React.FC = () => {
 
         {/* Floating Decorative Initial */}
         <div className="absolute top-0 right-0 p-8 text-8xl md:text-9xl text-[#D4AF37]/5 royal-text select-none group-hover:text-[#D4AF37]/10 group-hover:-translate-y-2 transition-all duration-1000 pointer-events-none">
-          About
+          Legacy
         </div>
 
         <div className="max-w-4xl relative z-10">
@@ -24,10 +24,10 @@ const About: React.FC = () => {
           
           <div className="space-y-6 text-lg text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors duration-500">
             <p>
-              I am <span className="text-[#D4AF37] font-bold">Kamalesh S</span>, a third-year B.Tech Information Technology student at <span className="text-white font-semibold">SNS College of Technology</span>. With a strong foundation in computer science principles and emerging technologies, I am passionate about exploring software development, data science, and cloud computing.
+              I am <span className="text-[#D4AF37] font-bold">Kamalesh S</span>, a third-year B.Tech Information Technology student at <span className="text-white font-semibold">SNS College of Technology</span>. With a strong foundation in computer science principles and emerging technologies, I am passionate about exploring areas such as <span className="text-white">software development</span>, <span className="text-white">data science</span>, and <span className="text-white">cloud computing</span>.
             </p>
             <p>
-              My focus lies in building responsive, user-friendly digital solutions while mastering core concepts like Data Structures and DBMS to create efficient and scalable applications.
+              My focus lies in blending theoretical knowledge with hands-on technical craftsmanship, striving to build high-performance digital experiences that solve real-world problems through clean code and modern architecture.
             </p>
           </div>
 
@@ -41,12 +41,12 @@ const About: React.FC = () => {
               <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">CGPA (%)</p>
             </div>
             <div className="group/stat">
-              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">6+</p>
-              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">Languages</p>
+              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">10+</p>
+              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">Core Skills</p>
             </div>
             <div className="group/stat">
-              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">2</p>
-              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">Specialized Workshops</p>
+              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">8</p>
+              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">Honors</p>
             </div>
           </div>
         </div>

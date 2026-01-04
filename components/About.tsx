@@ -18,16 +18,12 @@ const About: React.FC = () => {
         </div>
 
         <div className="max-w-4xl relative z-10">
-          <p className="text-xl md:text-2xl text-zinc-200 leading-relaxed mb-8 royal-text italic group-hover:text-white transition-colors duration-500">
-            "I am eager to apply my academic knowledge in practical settings, contribute to innovative projects, and continuously enhance my skills in the ever-evolving tech landscape."
-          </p>
-          
-          <div className="space-y-6 text-lg text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors duration-500">
+          <div className="space-y-8 text-xl md:text-2xl text-zinc-200 leading-relaxed mb-8 royal-text italic group-hover:text-white transition-colors duration-500">
             <p>
-              I am <span className="text-[#D4AF37] font-bold">Kamalesh S</span>, a third-year B.Tech Information Technology student at <span className="text-white font-semibold">SNS College of Technology</span>. With a strong foundation in computer science principles and emerging technologies, I am passionate about exploring areas such as <span className="text-white">software development</span>, <span className="text-white">data science</span>, and <span className="text-white">cloud computing</span>.
+              I am <span className="text-[#D4AF37] font-bold not-italic">Kamalesh S</span>, a third-year B.Tech Information Technology student at <span className="text-white font-semibold not-italic">SNS College of Technology</span>. With a strong foundation in computer science principles and emerging technologies, I am passionate about exploring areas such as <span className="text-[#D4AF37] not-italic">software development</span>, <span className="text-white not-italic">data science</span>, and <span className="text-white not-italic">cloud computing</span>.
             </p>
-            <p>
-              My focus lies in blending theoretical knowledge with hands-on technical craftsmanship, striving to build high-performance digital experiences that solve real-world problems through clean code and modern architecture.
+            <p className="text-zinc-400 text-lg md:text-xl border-l-2 border-[#D4AF37]/30 pl-6 not-italic">
+              "I am eager to apply my academic knowledge in practical settings, contribute to innovative projects, and continuously enhance my skills in the ever-evolving tech landscape.."
             </p>
           </div>
 

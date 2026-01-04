@@ -6,7 +6,7 @@ const Certifications: React.FC = () => {
     {
       title: "Computer Systems Security",
       issuer: "MIT Certified Course",
-      date: "2024",
+      date: "Verify",
       description: "Acquired in-depth knowledge on protecting computer systems and networks against various threats and vulnerabilities.",
       link: "https://drive.google.com/file/d/1U3oHKbZobYQmHKNEV4YPu_Ck3JNyt4kz/view?usp=drivesdk",
       badge: "MIT"
@@ -14,26 +14,26 @@ const Certifications: React.FC = () => {
     {
       title: "Certified Training in Android Development",
       issuer: "Industrial Training Program",
-      date: "2023",
+      date: "80 Hours",
       description: "Completed an 80-hour value-added course designed to meet industrial needs for professional competency.",
       link: "#",
-      badge: "80 Hours"
+      badge: "Professional"
     },
     {
-      title: "Computer Hardware and Networking",
+      title: "Certified Training in Computer Hardware and Networking",
       issuer: "Technical Training Center",
-      date: "2023",
+      date: "80 Hours",
       description: "Acquired professional competency in setting up, troubleshooting, and securing computer systems and networks.",
       link: "#",
-      badge: "80 Hours"
+      badge: "Professional"
     },
     {
       title: "Diploma in Computer Application (DCA)",
       issuer: "Technical Certification",
-      date: "2023",
+      date: "6 Months",
       description: "Proficient in MS Office Suite (Word, Excel, PowerPoint, Access) and Tally ERP 9 with GST, following a six-month program.",
       link: "#",
-      badge: "6 Months"
+      badge: "Complete"
     }
   ];
 
@@ -61,18 +61,18 @@ const Certifications: React.FC = () => {
                   {cert.badge}
                 </div>
               </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">{cert.date}</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#D4AF37]">{cert.date}</span>
             </div>
             
             <h3 className="royal-text text-xl font-bold text-white mb-3 group-hover:text-[#D4AF37] transition-colors">
               {cert.title}
             </h3>
             
-            <p className="text-sm font-semibold text-[#D4AF37]/80 uppercase tracking-widest mb-4">
+            <p className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mb-4">
               {cert.issuer}
             </p>
             
-            <p className="text-zinc-400 text-sm leading-relaxed mb-8 italic">
+            <p className="text-zinc-500 text-sm leading-relaxed mb-8 italic">
               "{cert.description}"
             </p>
             

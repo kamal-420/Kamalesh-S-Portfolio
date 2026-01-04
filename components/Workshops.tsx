@@ -10,7 +10,7 @@ const Workshops: React.FC = () => {
       link: "https://drive.google.com/file/d/1cAcfFkcZEDErovRSGqaF7gZihR9znMdx/view?usp=drivesdk"
     },
     {
-      title: "Backend Development Industrial Training",
+      title: "Industrial Training/Internship: Backend Development",
       description: "Gained practical knowledge relevant to modern application development within a professional software development environment at LET'S GAMETECH.",
       meta: "LET'S GAMETECH",
       link: "#"

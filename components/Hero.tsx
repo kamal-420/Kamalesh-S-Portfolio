@@ -57,8 +57,8 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   }, [typedText, isDeleting, roleIndex]);
 
   const handleResumeDownload = () => {
-    // Verified Google Drive direct download link
-    const resumeDownloadUrl = 'https://drive.google.com/uc?export=download&id=1QReNVPbV-TKcv3ZNF_WvBqwOvs_NaxrM';
+    // Updated Google Drive direct download link for Kamalesh S Resume
+    const resumeDownloadUrl = 'https://drive.google.com/uc?export=download&id=1c_VUHzTV7MM9TJzK6IflJVuIEhi1X2Dv';
     window.open(resumeDownloadUrl, '_blank');
   };
 
@@ -106,18 +106,20 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
             <button 
               onClick={() => onNavigate('projects')}
-              className="group relative h-[68px] bg-[#D4AF37] text-[#050510] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#c4a030] transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.4)] active:scale-95 overflow-hidden flex items-center justify-center"
-            >
-              <span className="relative z-10">Works</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-            </button>
-            
-            <button 
-              onClick={handleResumeDownload}
               className="group flex items-center justify-center gap-2 h-[68px] border-2 border-[#D4AF37]/40 text-[var(--text-primary)] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all active:scale-95 glass"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#D4AF37] group-hover:translate-y-0.5 transition-transform"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Download CV</span>
+              <span>View Works</span>
+            </button>
+
+            <button 
+              onClick={handleResumeDownload}
+              className="group relative h-[68px] bg-[#D4AF37] text-[#050510] text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl hover:bg-[#c4a030] transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.4)] active:scale-95 overflow-hidden flex items-center justify-center px-4"
+            >
+              <div className="relative z-10 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Download Resume</span>
+              </div>
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
 
             <button 

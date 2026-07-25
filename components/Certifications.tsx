@@ -4,36 +4,52 @@ import SectionHeader from './SectionHeader.tsx';
 const Certifications: React.FC = () => {
   const certifications = [
     {
+      title: "Microsoft Azure Fundamentals (AZ-900)",
+      issuer: "Cursa",
+      date: "Verified",
+      description: "Gained core competency in cloud concepts, Azure architecture, azure services, security, privacy, compliance, and cloud pricing structures.",
+      link: "https://drive.google.com/drive/folders/1L0zrsSFh9I3zpCuSsCkNtTgeodtrqyd4",
+      badge: "Cloud"
+    },
+    {
+      title: "Cloud Computing: Beginner to Advanced",
+      issuer: "University of Illinois, via Cursa",
+      date: "Verified",
+      description: "Intensive training on cloud deployment strategies, distributed storage models, virtualization, scalability, and infrastructure engineering.",
+      link: "https://drive.google.com/drive/folders/1L0zrsSFh9I3zpCuSsCkNtTgeodtrqyd4",
+      badge: "Systems"
+    },
+    {
+      title: "Full Stack Web Development",
+      issuer: "Cursa",
+      date: "Verified",
+      description: "Full-stack development training covering responsive frontend visual layout design, database integrations, backend APIs, and web hosting.",
+      link: "https://drive.google.com/drive/folders/1L0zrsSFh9I3zpCuSsCkNtTgeodtrqyd4",
+      badge: "Fullstack"
+    },
+    {
       title: "Computer Systems Security",
-      issuer: "MIT Certified Course",
-      date: "Verify",
-      description: "Acquired in-depth knowledge on protecting computer systems and networks against various threats and vulnerabilities.",
+      issuer: "MIT, via Cursa",
+      date: "Verified",
+      description: "Acquired rigorous credentials on computer systems engineering, threat modeling, network security, cryptography, and secure systems execution.",
       link: "https://drive.google.com/file/d/1U3oHKbZobYQmHKNEV4YPu_Ck3JNyt4kz/view?usp=drivesdk",
-      badge: "MIT"
+      badge: "Security"
     },
     {
-      title: "Certified Training in Android Development",
-      issuer: "Industrial Training Program",
-      date: "80 Hours",
-      description: "Completed an 80-hour value-added course designed to meet industrial needs for professional competency.",
-      link: "#",
-      badge: "Professional"
+      title: "Career Essentials in Generative AI",
+      issuer: "Microsoft & LinkedIn Learning",
+      date: "AI Cert",
+      description: "Learned core concepts in natural language processing (NLP), generative foundation models, prompt engineering, and ethical deployment of AI systems.",
+      link: "https://drive.google.com/drive/folders/1L0zrsSFh9I3zpCuSsCkNtTgeodtrqyd4",
+      badge: "AI"
     },
     {
-      title: "Certified Training in Computer Hardware and Networking",
-      issuer: "Technical Training Center",
-      date: "80 Hours",
-      description: "Acquired professional competency in setting up, troubleshooting, and securing computer systems and networks.",
-      link: "#",
-      badge: "Professional"
-    },
-    {
-      title: "Diploma in Computer Application (DCA)",
-      issuer: "Technical Certification",
-      date: "6 Months",
-      description: "Proficient in MS Office Suite (Word, Excel, PowerPoint, Access) and Tally ERP 9 with GST, following a six-month program.",
-      link: "#",
-      badge: "Complete"
+      title: "Diploma in Computer Application (DCA) - Grade A",
+      issuer: "CSC | Value Added Institute, Salem",
+      date: "160 Hrs Total",
+      description: "Awarded Grade A. Includes professional competency training in Computer Hardware & Networking (80 hrs) and Android Development (80 hrs) at Value Added Institute, Salem.",
+      link: "https://drive.google.com/drive/folders/1L0zrsSFh9I3zpCuSsCkNtTgeodtrqyd4",
+      badge: "DCA / CSC"
     }
   ];
 
@@ -41,66 +57,58 @@ const Certifications: React.FC = () => {
 
   return (
     <div>
-      <SectionHeader title="Technical Honors" />
+      <SectionHeader title="Technical Honors &amp; Certifications" />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-6 mb-12">
         {certifications.map((cert, index) => (
           <div 
             key={index} 
-            className="royal-card group relative p-8 md:p-10 rounded-[2.5rem] bg-zinc-950/40 border border-white/5 overflow-hidden flex flex-col transition-all duration-500"
+            className="royal-card bg-[#121217] border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col justify-between transition-all duration-300 hover:border-[#D4AF37]/30 hover:translate-y-[-2px]"
           >
-            {/* Background Accent */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[#D4AF37]/10 transition-all duration-700"></div>
-            
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] border border-[#D4AF37]/20">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15l-3-3h6l-3 3z"/><path d="M12 21l-9-9 9-9 9 9-9 9z"/></svg>
-                </div>
-                <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10 text-[9px] font-black uppercase tracking-widest text-zinc-400">
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <span className="text-[9px] font-black tracking-widest text-[#D4AF37] uppercase bg-[#D4AF37]/10 px-2.5 py-1 rounded border border-[#D4AF37]/20">
                   {cert.badge}
-                </div>
+                </span>
+                <span className="text-[10px] text-zinc-500 font-bold uppercase">{cert.date}</span>
               </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#D4AF37]">{cert.date}</span>
+              
+              <h3 className="royal-text text-lg font-bold text-white mb-2 leading-tight">
+                {cert.title}
+              </h3>
+              
+              <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-4">
+                {cert.issuer}
+              </p>
+              
+              <p className="text-zinc-400 text-xs leading-relaxed mb-6 italic">
+                "{cert.description}"
+              </p>
             </div>
             
-            <h3 className="royal-text text-xl font-bold text-white mb-3 group-hover:text-[#D4AF37] transition-colors">
-              {cert.title}
-            </h3>
-            
-            <p className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mb-4">
-              {cert.issuer}
-            </p>
-            
-            <p className="text-zinc-500 text-sm leading-relaxed mb-8 italic">
-              "{cert.description}"
-            </p>
-            
-            {cert.link !== "#" && (
-              <div className="mt-auto">
-                <a 
-                  href={cert.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:text-[#D4AF37] transition-colors group/link"
-                >
-                  <span>Verify Credential</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover/link:translate-x-1 transition-transform"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-                </a>
-              </div>
-            )}
+            <div className="pt-4 border-t border-white/5 mt-auto">
+              <a 
+                href={cert.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-300 hover:text-[#D4AF37] transition-colors"
+              >
+                <span>View Certificate</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="flex flex-col items-center">
+      <div className="flex justify-center">
         <a 
           href={archiveFolder}
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative px-12 py-5 bg-transparent border-2 border-[#D4AF37]/30 text-[#D4AF37] font-black uppercase text-xs tracking-[0.4em] rounded-2xl hover:border-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all shadow-[0_20px_50px_-15px_rgba(212,175,55,0.1)] flex items-center gap-4"
+          className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 hover:border-[#D4AF37]/50 text-zinc-300 hover:text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all bg-white/3"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
           <span>Open Full Archive</span>
         </a>
       </div>

@@ -1,76 +1,65 @@
 import React from 'react';
 import SectionHeader from './SectionHeader.tsx';
 
-const Skills: React.FC = () => {
-  const academicSkills = [
-    { category: 'Programming', items: ['Python', 'Java', 'C', 'HTML', 'CSS', 'JS'] },
-    { category: 'Web', items: ['HTML', 'CSS', 'JavaScript'] },
-    { category: 'Tools & Platform', items: ['Microsoft Excel', 'Word', 'PowerPoint', 'Visual Studio', 'CapCut (Video Editing)'] },
-    { category: 'Core Concepts', items: ['Data Structures', 'OOPs Concept', 'DBMS'] },
-  ];
+interface SkillCategory {
+  title: string;
+  skills: string[];
+}
 
-  const softSkills = [
-    'Communication Skills (oral + written)',
-    'Teamwork & Collaboration',
-    'Leadership & Initiative',
-    'Problem-Solving & Critical Thinking',
-    'Time Management & Organization'
+const Skills: React.FC = () => {
+  const skillCategories: SkillCategory[] = [
+    {
+      title: "Programming Languages",
+      skills: ["Python", "Java", "C", "C++", "JavaScript"]
+    },
+    {
+      title: "Web Technologies",
+      skills: ["HTML5", "CSS3", "JavaScript", "React.js", "Node.js", "Express", "Bootstrap", "Streamlit", "CustomTkinter", "API Integration"]
+    },
+    {
+      title: "Databases",
+      skills: ["SQL", "DBMS", "MySQL", "MongoDB"]
+    },
+    {
+      title: "Data Analysis & AI",
+      skills: ["Microsoft Excel (Formulas, Pivot Tables)", "Power BI", "Data Visualization", "Cloud Computing", "Generative AI", "OpenAI API", "NLP (Natural Language Processing)", "Prompt Engineering"]
+    },
+    {
+      title: "Cloud & Developer Tools",
+      skills: ["Microsoft Azure (AZ-900)", "AWS (IoT)", "Git & GitHub", "VS Code", "FFmpeg"]
+    }
   ];
 
   return (
     <div>
-      <SectionHeader title="Expertise & Craft" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Academic Skills */}
-        <div className="royal-card p-10 rounded-[2.5rem] bg-zinc-950/40 border-t-2 border-t-[#D4AF37]/50 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-[60px] -mr-16 -mt-16"></div>
-          <h3 className="royal-text text-2xl font-bold text-white mb-10 flex items-center gap-4 relative z-10">
-            <span className="w-8 h-8 bg-[#D4AF37]/10 flex items-center justify-center rounded-lg text-[#D4AF37]">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M10.394 2.827a1 1 0 00-.788 0l-7 3a1 1 0 000 1.846l7 3a1 1 0 00.788 0l7-3a1 1 0 000-1.846l-7-3z" />
-                <path d="M6.75 6.75C6.75 5.784 7.534 5 8.5 5h3c.966 0 1.75.784 1.75 1.75v1.5a.75.75 0 01-1.5 0v-1.5a.25.25 0 00-.25-.25h-3a.25.25 0 00-.25.25v1.5a.75.75 0 01-1.5 0v-1.5z" />
-              </svg>
-            </span>
-            Academic Skills
-          </h3>
-          <div className="space-y-8 relative z-10">
-            {academicSkills.map((group) => (
-              <div key={group.category}>
-                <p className="text-[10px] uppercase tracking-[0.3em] font-black text-[#D4AF37] mb-4">{group.category}</p>
-                <div className="flex flex-wrap gap-3">
-                  {group.items.map((skill) => (
-                    <span key={skill} className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm font-medium text-zinc-300 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all cursor-default">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <SectionHeader title="Technical Core" />
+      
+      <p className="text-zinc-500 text-xs uppercase tracking-[0.2em] mb-12 text-center font-bold">
+        A curated compilation of my technical capabilities, languages, and tools
+      </p>
 
-        {/* Soft Skills */}
-        <div className="royal-card p-10 rounded-[2.5rem] bg-zinc-950/40 border-t-2 border-t-[#D4AF37]/50 relative overflow-hidden">
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-[#D4AF37]/5 rounded-full blur-[80px] -mr-20 -mb-20"></div>
-          <h3 className="royal-text text-2xl font-bold text-white mb-10 flex items-center gap-4 relative z-10">
-             <span className="w-8 h-8 bg-[#D4AF37]/10 flex items-center justify-center rounded-lg text-[#D4AF37]">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
-            </span>
-            Soft Skills
-          </h3>
-          <div className="grid grid-cols-1 gap-4 relative z-10">
-            {softSkills.map((skill) => (
-              <div key={skill} className="group flex items-center justify-between p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-[#D4AF37]/5 hover:border-[#D4AF37]/40 transition-all">
-                <span className="text-zinc-300 font-semibold group-hover:text-white transition-colors">{skill}</span>
-                <div className="h-1 w-20 bg-zinc-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-[#D4AF37] to-transparent w-full transition-all duration-700"></div>
-                </div>
-              </div>
-            ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-6">
+        {skillCategories.map((cat) => (
+          <div 
+            key={cat.title} 
+            className="royal-card p-6 md:p-8 rounded-3xl bg-[#121217] border border-white/5 hover:border-[#D4AF37]/30 transition-all duration-300 relative group overflow-hidden"
+          >
+            <h3 className="royal-text text-xl font-bold text-white mb-6 border-b border-white/5 pb-3">
+              {cat.title}
+            </h3>
+            
+            <div className="flex flex-wrap gap-2.5">
+              {cat.skills.map((skill) => (
+                <span 
+                  key={skill} 
+                  className="px-3.5 py-1.5 bg-white/3 border border-white/5 rounded-xl text-xs font-semibold text-zinc-300 hover:text-[#D4AF37] hover:border-[#D4AF37]/30 hover:bg-[#D4AF37]/5 transition-all duration-300 cursor-default"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

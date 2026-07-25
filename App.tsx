@@ -6,13 +6,14 @@ import Education from './components/Education.tsx';
 import Skills from './components/Skills.tsx';
 import Projects from './components/Projects.tsx';
 import Certifications from './components/Certifications.tsx';
+import Experience from './components/Experience.tsx';
 import Workshops from './components/Workshops.tsx';
 import Contact from './components/Contact.tsx';
 import ScrollToTop from './components/ScrollToTop.tsx';
 import ScrollReveal from './components/ScrollReveal.tsx';
 import ScrollProgressBar from './components/ScrollProgressBar.tsx';
-import CursorTrail from './components/CursorTrail.tsx';
 import PageTransitionOverlay from './components/PageTransitionOverlay.tsx';
+import Chatbot from './components/Chatbot.tsx';
 
 const App: React.FC = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -49,7 +50,6 @@ const App: React.FC = () => {
     <div className="min-h-screen selection:bg-[#D4AF37]/40 relative bg-transparent">
       <PageTransitionOverlay isTransitioning={isTransitioning} />
       <ScrollProgressBar />
-      <CursorTrail />
       <Navbar onNavigate={handleNavigate} />
       
       <main className="relative z-10">
@@ -88,6 +88,12 @@ const App: React.FC = () => {
             </ScrollReveal>
           </section>
 
+          <section id="experience">
+            <ScrollReveal delay={100}>
+              <Experience />
+            </ScrollReveal>
+          </section>
+
           <section id="workshops">
             <ScrollReveal delay={100}>
               <Workshops />
@@ -103,6 +109,7 @@ const App: React.FC = () => {
       </main>
       
       <ScrollToTop onNavigate={handleNavigate} />
+      <Chatbot />
     </div>
   );
 };

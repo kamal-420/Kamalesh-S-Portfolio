@@ -1,77 +1,180 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SectionHeader from './SectionHeader.tsx';
 
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  githubLink: string;
+  demoLink: string;
+  category: string;
+  gradient: string; // CSS gradient class representing the project preview screen
+}
+
 const Projects: React.FC = () => {
-  const project = {
-    title: "Responsive Web Development Using Frontend Technologies",
-    description: "Developed a responsive, user-friendly website with HTML, CSS, JavaScript, and Bootstrap, ensuring clean UI, cross-browser compatibility, and mobile optimization.",
-    tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Git & GitHub", "React", "VS Code"],
-    link: "https://github.com/kamal-420"
-  };
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const categories = ["All", "AI & Intelligence", "Web Architecture", "Systems & IoT"];
+
+  const projectsData: Project[] = [
+    {
+      title: "SmartCompress — Desktop Image & Video Compression Tool",
+      description: "Engineered a Python desktop application with CustomTkinter for batch image and video compression, preserving original folder structure. Integrated FFmpeg and Pillow with multi-threading to ensure a highly responsive UI with live compression stats.",
+      tech: ["Python", "CustomTkinter", "FFmpeg", "Pillow", "Multi-threading"],
+      githubLink: "https://github.com/kamal-420",
+      demoLink: "https://github.com/kamal-420",
+      category: "Systems & IoT",
+      gradient: "from-amber-500/20 via-[#D4AF37]/10 to-transparent"
+    },
+    {
+      title: "AI Code Assistant",
+      description: "Built an AI-powered coding assistant that explains complex code blocks, detects bugs, suggests optimizations, and generates code snippets. Designed a custom responsive front-end interface for an interactive, seamless user experience.",
+      tech: ["Python", "OpenAI API", "Streamlit", "HTML5", "CSS3"],
+      githubLink: "https://github.com/kamal-420",
+      demoLink: "https://github.com/kamal-420",
+      category: "AI & Intelligence",
+      gradient: "from-blue-500/20 via-indigo-500/10 to-transparent"
+    },
+    {
+      title: "AI ATS Resume Analyzer",
+      description: "Developed an AI-driven resume reviewer that evaluates ATS format compatibility, parses content using NLP, identifies missing keywords, and recommends tailored enhancements to maximize interview callback rates.",
+      tech: ["Python", "Streamlit", "OpenAI API", "NLP", "PDF Processing"],
+      githubLink: "https://github.com/kamal-420",
+      demoLink: "https://github.com/kamal-420",
+      category: "AI & Intelligence",
+      gradient: "from-emerald-500/20 via-teal-500/10 to-transparent"
+    },
+    {
+      title: "Portfolio Website",
+      description: "Created a highly responsive digital portfolio showcasing projects, skills, certificates, and achievements. Implemented a slate-colored premium design with elegant typography, motion overlays, and interactive forms.",
+      tech: ["React.js", "JavaScript", "HTML5", "CSS3", "Bootstrap", "Netlify"],
+      githubLink: "https://github.com/kamal-420",
+      demoLink: "https://github.com/kamal-420",
+      category: "Web Architecture",
+      gradient: "from-[#D4AF37]/20 via-[#0B0B0F] to-transparent"
+    },
+    {
+      title: "Responsive Web Development Using Frontend Technologies",
+      description: "Developed a responsive, cross-browser compatible web platform using frontend frameworks. Crafted modular, clean UI layouts optimized for performance and mobile responsiveness.",
+      tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "React", "Git & GitHub"],
+      githubLink: "https://github.com/kamal-420",
+      demoLink: "https://github.com/kamal-420",
+      category: "Web Architecture",
+      gradient: "from-purple-500/20 via-pink-500/10 to-transparent"
+    },
+    {
+      title: "Sense-to-Cloud: IoT with Raspberry Pi & AWS",
+      description: "Designed and implemented an end-to-end IoT pipeline connecting physical Raspberry Pi sensors to AWS cloud infrastructure for automated real-time telemetry, data ingestion, and monitoring.",
+      tech: ["IoT", "Raspberry Pi", "AWS Cloud", "Sensors", "MQTT"],
+      githubLink: "https://github.com/kamal-420",
+      demoLink: "https://github.com/kamal-420",
+      category: "Systems & IoT",
+      gradient: "from-orange-500/20 via-amber-500/10 to-transparent"
+    }
+  ];
+
+  const filteredProjects = activeCategory === "All" 
+    ? projectsData 
+    : projectsData.filter(p => p.category === activeCategory);
 
   return (
     <div>
-      <SectionHeader title="Featured Works" />
-      <div className="grid grid-cols-1 gap-12">
-        <div className="royal-card group glass bg-[var(--card-bg)] border border-[var(--border-color)] rounded-[3rem] overflow-hidden hover:border-[#D4AF37] flex flex-col lg:flex-row transition-all duration-700 shadow-2xl">
-          {/* Visual Side */}
-          <div className="lg:w-2/5 relative overflow-hidden bg-[var(--bg-primary)] flex items-center justify-center p-12 border-b lg:border-b-0 lg:border-r border-[var(--border-color)]">
-            <div className="absolute inset-0 bg-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            
-            {/* Decorative background shape */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#D4AF37]/10 rounded-full blur-[60px] group-hover:bg-[#D4AF37]/20 transition-all duration-700"></div>
-            
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="w-32 h-32 text-[var(--text-secondary)] opacity-20 group-hover:scale-110 group-hover:text-[#D4AF37] group-hover:opacity-60 transition-all duration-700 z-10" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
-          </div>
+      <SectionHeader title="Featured Projects" />
+      
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-2 justify-center mb-12 mt-6">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActiveCategory(cat)}
+            className={`px-5 py-2 text-[10px] uppercase tracking-widest font-bold rounded-lg transition-all duration-300 ${
+              activeCategory === cat 
+                ? 'bg-[#D4AF37] text-[#050510] font-black'
+                : 'bg-white/5 border border-white/10 text-zinc-400 hover:border-[#D4AF37]/40 hover:text-white'
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
 
-          {/* Content Side */}
-          <div className="lg:w-3/5 p-10 md:p-16 flex flex-col justify-center">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="w-8 h-[1px] bg-[#D4AF37]"></span>
-              <span className="text-[10px] uppercase tracking-[0.4em] font-black text-[#D4AF37]">Web Architecture</span>
-            </div>
-            
-            <h3 className="royal-text text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-6 group-hover:text-[#D4AF37] transition-colors leading-tight">
-              {project.title}
-            </h3>
-            
-            <p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-10 max-w-2xl">
-              {project.description}
-            </p>
-            
-            <div className="flex flex-wrap gap-2 mb-12">
-              {project.tech.map((t) => (
-                <span key={t} className="px-4 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[#D4AF37] hover:border-[#D4AF37] text-[10px] font-bold uppercase tracking-widest rounded-xl transition-all">
-                  {t}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredProjects.map((p, idx) => (
+          <div 
+            key={idx}
+            className="royal-card bg-[#121217] border border-white/5 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#D4AF37]/30 hover:translate-y-[-4px]"
+          >
+            {/* Elegant stylized header acting as the Project Preview Mockup */}
+            <div className={`h-40 bg-gradient-to-br ${p.gradient} p-6 relative flex flex-col justify-between border-b border-white/5 overflow-hidden`}>
+              <div className="flex justify-between items-center w-full relative z-10">
+                {/* Simulated window dots */}
+                <div className="flex gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/30"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/30"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/30"></span>
+                </div>
+                <span className="text-[9px] uppercase tracking-wider font-extrabold px-2.5 py-1 bg-black/40 rounded-md text-zinc-400 border border-white/5">
+                  {p.category}
                 </span>
-              ))}
+              </div>
+
+              {/* Simulated visual layout */}
+              <div className="space-y-2 relative z-10">
+                <div className="h-4 w-3/4 bg-white/10 rounded"></div>
+                <div className="h-3 w-1/2 bg-white/5 rounded"></div>
+              </div>
+
+              {/* Subtle visual glow accent */}
+              <div className="absolute right-[-20px] bottom-[-20px] w-28 h-28 bg-[#D4AF37]/10 rounded-full blur-2xl"></div>
             </div>
-            
-            <div className="mt-auto">
-              <a 
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-4 px-10 py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-black uppercase text-xs tracking-widest rounded-2xl hover:bg-[#D4AF37] hover:text-[#050510] transition-all hover:scale-105 shadow-xl"
-              >
-                <span>View Source Code</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15 3h6v6"></path>
-                  <path d="M10 14L21 3"></path>
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                </svg>
-              </a>
+
+            {/* Content Area */}
+            <div className="p-6 md:p-8 flex-grow flex flex-col justify-between">
+              <div>
+                <h3 className="royal-text text-xl font-bold text-white mb-3 group-hover:text-[#D4AF37] transition-colors leading-snug">
+                  {p.title}
+                </h3>
+
+                <p className="text-zinc-400 text-xs leading-relaxed mb-6 italic">
+                  "{p.description}"
+                </p>
+              </div>
+
+              <div>
+                <div className="flex flex-wrap gap-1.5 mb-6">
+                  {p.tech.map((t) => (
+                    <span key={t} className="px-2.5 py-1 bg-white/5 border border-white/10 text-zinc-400 text-[9px] font-bold uppercase tracking-wider rounded-md">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Recruiter-friendly action buttons */}
+                <div className="flex gap-3 pt-4 border-t border-white/5">
+                  <a 
+                    href={p.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 px-3 border border-white/10 text-center text-[10px] font-black uppercase tracking-widest text-zinc-300 hover:text-white hover:border-[#D4AF37]/40 rounded-lg bg-white/3 transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    <span>GitHub</span>
+                  </a>
+
+                  <a 
+                    href={p.demoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 px-3 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-center text-[10px] font-black uppercase tracking-widest text-[#D4AF37] hover:bg-[#D4AF37]/20 rounded-lg transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    <span>Live Demo</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

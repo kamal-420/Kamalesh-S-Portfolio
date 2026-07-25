@@ -5,47 +5,57 @@ const About: React.FC = () => {
   return (
     <div className="relative">
       <SectionHeader title="About My Journey" />
-      <div className="glass royal-card p-10 md:p-16 rounded-[2.5rem] relative overflow-hidden group transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(212,175,55,0.15)] hover:border-[#D4AF37]/40">
+      
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-6">
         
-        {/* Animated Background Shine */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none">
-          <div className="absolute -inset-[100%] bg-gradient-to-tr from-transparent via-[#D4AF37]/5 to-transparent rotate-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-[2000ms] ease-in-out"></div>
-        </div>
-
-        {/* Floating Decorative Initial */}
-        <div className="absolute top-0 right-0 p-8 text-8xl md:text-9xl text-[#D4AF37]/5 royal-text select-none group-hover:text-[#D4AF37]/10 group-hover:-translate-y-2 transition-all duration-1000 pointer-events-none">
-          Legacy
-        </div>
-
-        <div className="max-w-4xl relative z-10">
-          <div className="space-y-8 text-xl md:text-2xl text-zinc-200 leading-relaxed mb-8 royal-text italic group-hover:text-white transition-colors duration-500">
+        {/* Left Column: Narrative, Objective */}
+        <div className="lg:col-span-7 space-y-8">
+          <div className="space-y-6 text-zinc-300 text-base md:text-lg leading-relaxed">
             <p>
-              I am <span className="text-[#D4AF37] font-bold not-italic">Kamalesh S</span>, a third-year B.Tech Information Technology student at <span className="text-white font-semibold not-italic">SNS College of Technology</span>. With a strong foundation in computer science principles and emerging technologies, I am passionate about exploring areas such as <span className="text-[#D4AF37] not-italic">software development</span>, <span className="text-white not-italic">data science</span>, and <span className="text-white not-italic">cloud computing</span>.
+              I am <span className="text-[#D4AF37] font-semibold">Kamalesh S</span>, an ambitious B.Tech Information Technology student at <span className="text-white font-medium">SNS College of Technology</span>, Coimbatore. I specialize in building high-performance frontend interfaces, scalable code logic, and robust software solutions.
             </p>
-            <p className="text-zinc-400 text-lg md:text-xl border-l-2 border-[#D4AF37]/30 pl-6 not-italic">
-              "I am eager to apply my academic knowledge in practical settings, contribute to innovative projects, and continuously enhance my skills in the ever-evolving tech landscape.."
+            <p>
+              My expertise is grounded in modern programming paradigms including <span className="text-[#D4AF37] font-medium">Python, Java, and Full-Stack Web Technologies</span>, backed by rigorous specialized industry training and cloud certifications. I love turning complex logic into polished, simple, and recruiter-focused user experiences.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 pt-12 border-t border-white/5 group-hover:border-[#D4AF37]/20 transition-colors duration-700">
-            <div className="group/stat">
-              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">3rd</p>
-              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">Year IT</p>
-            </div>
-            <div className="group/stat">
-              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">7.0</p>
-              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">CGPA (%)</p>
-            </div>
-            <div className="group/stat">
-              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">10+</p>
-              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">Core Skills</p>
-            </div>
-            <div className="group/stat">
-              <p className="text-[#D4AF37] font-black text-3xl mb-1 group-hover/stat:scale-110 transition-transform origin-left">8</p>
-              <p className="text-xs uppercase tracking-tighter text-zinc-500 font-semibold group-hover/stat:text-[#D4AF37]/70 transition-colors">Honors</p>
-            </div>
+          <div className="border-l-2 border-[#D4AF37]/40 pl-6 space-y-3">
+            <h4 className="text-xs uppercase tracking-widest font-bold text-[#D4AF37]">Career Objective</h4>
+            <p className="text-zinc-400 text-sm leading-relaxed italic">
+              "Seeking a Graduate Trainee, Software Engineer, or Data Analyst role at a forward-thinking product-based company where I can apply my engineering discipline, core analytical skills, and hands-on full-stack competence to solve high-impact problems."
+            </p>
           </div>
         </div>
+
+        {/* Right Column: Key Details & Stats in Premium Cards */}
+        <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <div className="royal-card p-6 rounded-2xl bg-[#121217] border border-white/5 hover:border-[#D4AF37]/30 transition-all duration-300">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-1">Education</span>
+            <span className="text-white font-bold text-sm block">B.Tech IT</span>
+            <span className="text-[#D4AF37] font-semibold text-xs block mt-1">SNS College of Tech</span>
+          </div>
+
+          <div className="royal-card p-6 rounded-2xl bg-[#121217] border border-white/5 hover:border-[#D4AF37]/30 transition-all duration-300">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-1">Academic Grade</span>
+            <span className="text-white font-bold text-lg block">7.3 CGPA</span>
+            <span className="text-zinc-400 text-xs block mt-1">Information Technology</span>
+          </div>
+
+          <div className="royal-card p-6 rounded-2xl bg-[#121217] border border-white/5 hover:border-[#D4AF37]/30 transition-all duration-300">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-1">Diploma Grade</span>
+            <span className="text-white font-bold text-lg block">84% GPA</span>
+            <span className="text-zinc-400 text-xs block mt-1">Computer Science Eng</span>
+          </div>
+
+          <div className="royal-card p-6 rounded-2xl bg-[#121217] border border-white/5 hover:border-[#D4AF37]/30 transition-all duration-300">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-1">Location</span>
+            <span className="text-white font-bold text-sm block">Tamil Nadu, India</span>
+            <span className="text-zinc-400 text-xs block mt-1">Kallakurichi / Coimbatore</span>
+          </div>
+
+        </div>
+
       </div>
     </div>
   );

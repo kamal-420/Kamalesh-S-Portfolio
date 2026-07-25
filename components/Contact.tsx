@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import SectionHeader from './SectionHeader.tsx';
 
 const Contact: React.FC = () => {
@@ -7,23 +7,14 @@ const Contact: React.FC = () => {
     email: '',
     message: ''
   });
-  
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [showToast, setShowToast] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsFormVisible(true);
-      }
-    }, { threshold: 0.1 });
-
-    if (formRef.current) {
-      observer.observe(formRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText("kamaleshsekar9487@gmail.com");
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2000);
+  };
 
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/kamal-420", icon: "github" },
@@ -39,198 +30,185 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     const phoneNumber = "919677643687";
-    const text = `*New Royal Summons from Portfolio*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Message:* ${formData.message}`;
-    
+    const text = `*New Professional Inquiry*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Message:* ${formData.message}`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`;
     window.open(whatsappUrl, '_blank');
   };
 
   const getIcon = (name: string) => {
     switch(name) {
-      case 'github': return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>;
-      case 'linkedin': return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>;
-      case 'instagram': return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>;
-      case 'code': return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>;
+      case 'github': return <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>;
+      case 'linkedin': return <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>;
+      case 'instagram': return <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>;
+      case 'code': return <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>;
       default: return null;
     }
   };
 
   return (
-    <div className="pb-24 relative isolate">
-      {/* Royal Section Background - Subtle floating gradients */}
-      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden rounded-[3rem]">
-        <div className="absolute top-1/4 -left-1/4 w-full h-full bg-gradient-radial from-[#D4AF37]/5 to-transparent blur-[120px] animate-royal-slow-rotate opacity-60"></div>
-        <div className="absolute bottom-1/4 -right-1/4 w-full h-full bg-gradient-radial from-[#4B0082]/10 to-transparent blur-[140px] animate-royal-slow-rotate-reverse opacity-40"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.03)_0%,transparent_70%)] animate-pulse"></div>
-      </div>
-
-      <SectionHeader title="Royal Summons" />
+    <div className="relative">
+      <SectionHeader title="Get in Touch" />
       
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 relative">
-        <div className="lg:col-span-2 space-y-10">
-          <div className="relative">
-            <h3 className="royal-text text-3xl font-bold text-white mb-6">Let's Connect</h3>
-            <p className="text-zinc-400 text-lg leading-relaxed italic">
-              "Feel free to reach out for internships, collaborations, or project discussions. I respond promptly to every envoy."
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-6">
+        {/* Left Column: Contact details & Call to action */}
+        <div className="lg:col-span-5 space-y-8 flex flex-col justify-between">
+          <div className="space-y-6">
+            <h3 className="royal-text text-2xl font-bold text-white">Let's Connect</h3>
+            <p className="text-zinc-400 text-sm md:text-base leading-relaxed italic">
+              "Whether you're looking to discuss full-time software engineering roles, technical internships, or innovative product design collaborations, I'm always ready to connect."
             </p>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex items-center gap-6 group">
-              <div className="w-12 h-12 bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-xl flex items-center justify-center text-[#D4AF37]">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-[#D4AF37]/5 border border-[#D4AF37]/20 rounded-xl flex items-center justify-center text-[#D4AF37]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-500">Location</p>
+                  <p className="text-white text-sm font-bold">Tamil Nadu, India</p>
+                </div>
               </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest font-black text-zinc-500 mb-0.5">Location</p>
-                <p className="text-white font-bold text-base">Kallakurichi, Tamil Nadu</p>
+
+              <div className="flex items-center justify-between gap-4 p-1 rounded-2xl hover:bg-white/3 transition-all group max-w-sm">
+                <a 
+                  href="mailto:kamaleshsekar9487@gmail.com" 
+                  className="flex items-center gap-4 cursor-pointer"
+                  title="Send Email"
+                >
+                  <div className="w-10 h-10 bg-[#D4AF37]/5 border border-[#D4AF37]/20 group-hover:border-[#D4AF37]/50 rounded-xl flex items-center justify-center text-[#D4AF37] transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-500">Direct Email</p>
+                    <p className="text-white text-sm font-bold group-hover:text-[#D4AF37] transition-colors">kamaleshsekar9487@gmail.com</p>
+                  </div>
+                </a>
+                <button 
+                  onClick={handleCopyEmail}
+                  className="w-8 h-8 bg-white/5 border border-white/10 hover:border-[#D4AF37]/50 rounded-lg flex items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-all ml-2"
+                  title="Copy Email"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
               </div>
             </div>
-
-            <a href="tel:9677643687" className="flex items-center gap-6 group">
-              <div className="w-12 h-12 bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-xl flex items-center justify-center text-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#0a0a2e] transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest font-black text-zinc-500 mb-0.5">Tele-Comm</p>
-                <p className="text-white font-bold text-base">+91 9677643687</p>
-              </div>
-            </a>
-            
-            <a href="mailto:kamalesh.s.it.2023@snsct.org" className="flex items-center gap-6 group">
-              <div className="w-12 h-12 bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-xl flex items-center justify-center text-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#0a0a2e] transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest font-black text-zinc-500 mb-0.5">Electronic Mail</p>
-                <p className="text-white font-bold text-base">kamalesh.s.it.2023@snsct.org</p>
-              </div>
-            </a>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4">
-            {socialLinks.map((link) => (
-              <a 
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 bg-[#0a0a2e] border border-[#D4AF37]/40 rounded-xl flex items-center justify-center text-zinc-400 transition-all duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:text-[#D4AF37] hover:border-[#D4AF37] hover:scale-125 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(212,175,55,0.8)] active:scale-90"
-                title={link.name}
-              >
-                <span className="transition-transform duration-500 group-hover:rotate-12">
+          <div className="space-y-3">
+            <p className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-500">Find Me On</p>
+            <div className="flex gap-3">
+              {socialLinks.map((link) => (
+                <a 
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/3 border border-white/10 hover:border-[#D4AF37]/50 rounded-xl flex items-center justify-center text-zinc-400 hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all social-icon-pulse"
+                  title={link.name}
+                >
                   {getIcon(link.icon)}
-                </span>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="lg:col-span-3">
+        {/* Right Column: Contact Form */}
+        <div className="lg:col-span-7">
           <form 
-            ref={formRef}
             onSubmit={handleSubmit} 
-            className={`royal-card relative p-10 md:p-14 rounded-[3rem] bg-zinc-950/60 backdrop-blur-md border border-[#D4AF37]/20 space-y-8 overflow-hidden group shadow-2xl transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) ${
-              isFormVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
-            }`}
+            className="royal-card p-6 md:p-8 rounded-3xl bg-[#121217] border border-white/5 space-y-6"
           >
-            {/* Inner Animated Card Background Layer */}
-            <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-700">
-              <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-[#D4AF37]/15 to-transparent rounded-full blur-[100px] animate-royal-drift"></div>
-              <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-gradient-to-tl from-[#4B0082]/20 to-transparent rounded-full blur-[120px] animate-royal-drift-reverse"></div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-              <div className="space-y-3">
-                <label className="text-[10px] uppercase tracking-[0.2em] font-black text-[#D4AF37]">The Name</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-wider font-bold text-[#D4AF37]">Name</label>
                 <input 
                   type="text" 
                   name="name"
                   required
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 focus:shadow-[0_0_15px_rgba(212,175,55,0.15)] transition-all duration-300 placeholder:text-zinc-600"
+                  className="w-full bg-[#0B0B0F] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-[#D4AF37] focus:outline-none transition-colors placeholder:text-zinc-600"
                   placeholder="Your Name"
                 />
               </div>
-              <div className="space-y-3">
-                <label className="text-[10px] uppercase tracking-[0.2em] font-black text-[#D4AF37]">The Email</label>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-wider font-bold text-[#D4AF37]">Email Address</label>
                 <input 
                   type="email" 
                   name="email"
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 focus:shadow-[0_0_15px_rgba(212,175,55,0.15)] transition-all duration-300 placeholder:text-zinc-600"
-                  placeholder="your@email.com"
+                  className="w-full bg-[#0B0B0F] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-[#D4AF37] focus:outline-none transition-colors placeholder:text-zinc-600"
+                  placeholder="name@company.com"
                 />
               </div>
             </div>
-            <div className="space-y-3 relative z-10">
-              <label className="text-[10px] uppercase tracking-[0.2em] font-black text-[#D4AF37]">The Message</label>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-wider font-bold text-[#D4AF37]">Message</label>
               <textarea 
                 name="message"
                 required
                 rows={5}
                 value={formData.message}
                 onChange={handleInputChange}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-[#D4AF37] focus:outline-none focus:bg-white/10 focus:shadow-[0_0_15px_rgba(212,175,55,0.15)] transition-all duration-300 resize-none placeholder:text-zinc-600"
-                placeholder="What is your quest?"
+                className="w-full bg-[#0B0B0F] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-[#D4AF37] focus:outline-none transition-colors resize-none placeholder:text-zinc-600"
+                placeholder="Hi Kamalesh, I'd like to discuss an opportunity..."
               ></textarea>
             </div>
+
             <button 
               type="submit"
-              className="relative z-10 w-full py-5 bg-[#D4AF37] text-[#0a0a2e] font-black uppercase tracking-[0.2em] rounded-2xl hover:scale-[1.02] focus:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:ring-offset-2 focus:ring-offset-[#0a0a2e] active:scale-95 transition-all shadow-[0_10px_30px_-10px_rgba(212,175,55,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(212,175,55,0.8)] overflow-hidden group/btn"
+              className="w-full py-4 bg-[#D4AF37] text-black font-extrabold uppercase text-xs tracking-widest rounded-xl hover:bg-[#e4c04f] transition-all"
             >
-              <span className="relative z-10">Dispatch Message</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 group-focus/btn:translate-y-0 transition-transform duration-300"></div>
+              Send Message via WhatsApp
             </button>
           </form>
         </div>
       </div>
 
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#121217] border border-[#D4AF37]/30 text-white px-4 py-3 rounded-xl shadow-2xl animate-toast backdrop-blur-md">
+          <div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></div>
+          <span className="text-xs font-bold uppercase tracking-wider text-zinc-200">Copied to Clipboard!</span>
+        </div>
+      )}
+
       <style>{`
-        @keyframes royal-drift {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(15%, 10%) scale(1.1); }
+        @keyframes gold-pulse {
+          0%, 100% {
+            box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            border-color: rgba(255, 255, 255, 0.1);
+          }
+          50% {
+            box-shadow: 0 0 10px 1.5px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.35);
+          }
         }
-        @keyframes royal-drift-reverse {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-10%, -15%) scale(1.05); }
+        @keyframes slide-in-toast {
+          0% {
+            transform: translateY(1rem);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
         }
-        @keyframes royal-slow-rotate {
-          0% { transform: rotate(0deg) translate(0, 0); }
-          50% { transform: rotate(180deg) translate(50px, 20px); }
-          100% { transform: rotate(360deg) translate(0, 0); }
+        .animate-toast {
+          animation: slide-in-toast 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes royal-slow-rotate-reverse {
-          0% { transform: rotate(360deg) translate(0, 0); }
-          50% { transform: rotate(180deg) translate(-50px, -20px); }
-          100% { transform: rotate(0deg) translate(0, 0); }
+        .social-icon-pulse {
+          animation: gold-pulse 3s infinite ease-in-out;
         }
-        .animate-royal-drift {
-          animation: royal-drift 15s ease-in-out infinite;
-        }
-        .animate-royal-drift-reverse {
-          animation: royal-drift-reverse 18s ease-in-out infinite;
-        }
-        .animate-royal-slow-rotate {
-          animation: royal-slow-rotate 40s linear infinite;
-        }
-        .animate-royal-slow-rotate-reverse {
-          animation: royal-slow-rotate-reverse 50s linear infinite;
-        }
-        .bg-gradient-radial {
-          background: radial-gradient(circle, var(--tw-gradient-from), var(--tw-gradient-to));
-        }
+        .social-icon-pulse:nth-child(1) { animation-delay: 0s; }
+        .social-icon-pulse:nth-child(2) { animation-delay: 0.6s; }
+        .social-icon-pulse:nth-child(3) { animation-delay: 1.2s; }
+        .social-icon-pulse:nth-child(4) { animation-delay: 1.8s; }
       `}</style>
     </div>
   );

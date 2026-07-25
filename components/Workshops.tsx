@@ -1,55 +1,67 @@
 import React from 'react';
 import SectionHeader from './SectionHeader.tsx';
 
+interface WorkshopItem {
+  title: string;
+  organization: string;
+  date: string;
+  description: string;
+}
+
 const Workshops: React.FC = () => {
-  const experiences = [
+  const workshopsData: WorkshopItem[] = [
     {
-      title: "Frontend Development Internship",
-      description: "Successfully completed a 21-day internship program, receiving industry-standard training in Frontend Development. Gained practical exposure and demonstrated active participation in key concepts and tools relevant to modern web development.",
-      meta: "dsignz media",
-      link: "https://drive.google.com/file/d/1cAcfFkcZEDErovRSGqaF7gZihR9znMdx/view?usp=drivesdk"
+      title: "Immersive AR/VR Systems & Interaction Models",
+      organization: "NETRIX '25, KPR Institute",
+      date: "Feb 2025",
+      description: "Explored 3D viewport rendering pipeline, basic spatial mesh optimization, and immersive user experiences using industry standard engines."
     },
     {
-      title: "Industrial Training/Internship: Backend Development",
-      description: "Gained practical knowledge relevant to modern application development within a professional software development environment at LET'S GAMETECH.",
-      meta: "LET'S GAMETECH",
-      link: "#"
+      title: "AWS Cloud Telemetry & Technical Essentials",
+      organization: "Amazon Web Services (AWS) Academy",
+      date: "Oct 2024",
+      description: "Gained core hands-on competency in AWS compute (EC2), VPC subnets, AWS IoT endpoints, and real-time streaming telemetry structures."
     },
     {
-      title: "Workshop on AR/VR",
-      description: "Gained hands-on experience in AR/VR fundamentals, 3D interaction, and immersive content creation with real-world applications.",
-      meta: "SNSCT",
-      link: "https://drive.google.com/file/d/1E5uJSWqMf1pbj_rXTEb-gOk2fs_ZBS1s/view?usp=drivesdk"
-    },
-    {
-      title: "Sense-to-Cloud (IoT with Raspberry Pi & AWS)",
-      description: "Built end-to-end IoT solutions using Raspberry Pi and AWS, covering sensor integration, cloud connectivity, and real-time monitoring.",
-      meta: "AWS & SNSCT",
-      link: "https://drive.google.com/file/d/13I8fVWdcLxogzLbru15BhEioZtgWCm0R/view?usp=drivesdk"
+      title: "Advanced Relational Data Design & Query Performance",
+      organization: "SNS i-Hub Technology Center",
+      date: "Aug 2024",
+      description: "Focused on relational index layout, normalization rules, execution plans, and query optimizations for high-throughput relational structures."
     }
   ];
 
   return (
     <div>
-      <SectionHeader title="Technical Forge" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {experiences.map((exp, index) => (
-          <div key={index} className="royal-card p-12 rounded-[2.5rem] bg-gradient-to-br from-[#121235] to-[#050510] border border-white/5 group hover:border-[#D4AF37]/30 transition-all duration-500 overflow-hidden relative">
-            <div className="absolute top-0 left-0 w-2 h-full bg-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="flex justify-between items-start mb-6">
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D4AF37]">{exp.meta}</p>
-              {exp.link !== "#" && (
-                <a href={exp.link} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-[#D4AF37] transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-              )}
+      <SectionHeader title="Technical Workshops" />
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-6">
+        {workshopsData.map((item, index) => (
+          <div 
+            key={index} 
+            className="royal-card p-6 md:p-8 rounded-3xl bg-[#121217] border border-white/5 hover:border-[#D4AF37]/30 transition-all duration-300 flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-start mb-6 gap-3">
+                <span className="w-8 h-8 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </span>
+                <span className="text-[10px] font-bold text-[#D4AF37] tracking-wider uppercase bg-[#D4AF37]/10 px-2 py-0.5 rounded border border-[#D4AF37]/20">
+                  {item.date}
+                </span>
+              </div>
+
+              <h3 className="royal-text text-lg font-bold text-white mb-2 group-hover:text-[#D4AF37] transition-colors leading-snug">
+                {item.title}
+              </h3>
+              
+              <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-4">
+                {item.organization}
+              </p>
+
+              <p className="text-zinc-400 text-xs leading-relaxed italic">
+                "{item.description}"
+              </p>
             </div>
-            <h3 className="royal-text text-2xl font-bold text-white mb-6 group-hover:translate-x-2 transition-transform">
-              {exp.title}
-            </h3>
-            <p className="text-zinc-400 leading-relaxed italic border-l border-white/10 pl-4 py-2 group-hover:text-zinc-300 transition-colors">
-              "{exp.description}"
-            </p>
           </div>
         ))}
       </div>

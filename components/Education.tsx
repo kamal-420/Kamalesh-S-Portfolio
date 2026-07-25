@@ -4,58 +4,61 @@ import SectionHeader from './SectionHeader.tsx';
 const Education: React.FC = () => {
   const educationData = [
     {
-      degree: "Diploma in CSE",
-      institution: "Muthayammal Polytechnic College",
-      location: "Namakkal, Tamil Nadu, India",
-      period: "2019 - 2022",
-      cgpa: "84 %",
-      description: "Department of CSE. Built a strong foundation in computer science principles and technical systems."
-    },
-    {
       degree: "B.Tech Information Technology",
       institution: "SNS College of Technology",
-      location: "Coimbatore, Tamil Nadu, India",
-      period: "2022 - 2026",
-      cgpa: "7.0 %",
-      description: "Engaged in an intensive curriculum focusing on software engineering, data science, and cloud computing."
+      location: "Coimbatore, Tamil Nadu",
+      period: "2024 - 2027",
+      cgpa: "7.3",
+      description: "Focused on Software Engineering, Data Structures & Algorithms, Database Management Systems, and Cloud Architectures. Active participant in technical symposiums, hackathons, and hands-on workshops."
+    },
+    {
+      degree: "Diploma in Computer Science Engineering",
+      institution: "Muthayammal Polytechnic College",
+      location: "Namakkal, Tamil Nadu",
+      period: "2022 - 2024",
+      cgpa: "84%",
+      description: "Acquired rigorous fundamentals in structured programming, Object-Oriented paradigms (C++, Java), basic networking, and relational database systems."
     }
   ];
 
   return (
     <div>
-      <SectionHeader title="Academic Pedigree" />
-      <div className="space-y-12">
+      <SectionHeader title="Academic Foundation" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
         {educationData.map((edu, index) => (
-          <div key={index} className="royal-card bg-gradient-to-br from-[#1a1a3a] to-[#0a0a20] p-10 rounded-[2.5rem] border-l-4 border-l-[#D4AF37] relative group overflow-hidden transition-all duration-500 hover:translate-x-2">
-            <div className="absolute -right-10 -top-10 w-40 h-40 bg-[#D4AF37]/5 rounded-full blur-3xl group-hover:bg-[#D4AF37]/10 transition-all"></div>
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
-              <div>
-                <h3 className="royal-text text-3xl font-bold text-white mb-2">{edu.degree}</h3>
-                <p className="text-[#D4AF37] font-bold text-lg tracking-widest uppercase">{edu.institution}</p>
+          <div 
+            key={index} 
+            className="royal-card bg-[#121217] p-8 md:p-10 rounded-3xl border border-white/5 relative group transition-all duration-300 hover:border-[#D4AF37]/40 hover:translate-y-[-2px] flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-start gap-4 mb-6">
+                <div>
+                  <h3 className="royal-text text-xl md:text-2xl font-bold text-white leading-tight group-hover:text-[#D4AF37] transition-colors">
+                    {edu.degree}
+                  </h3>
+                  <p className="text-[#D4AF37] font-semibold text-xs uppercase tracking-wider mt-1.5">{edu.institution}</p>
+                </div>
+                <div className="px-3.5 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-full text-[#D4AF37] text-[10px] font-black tracking-wider uppercase">
+                  CGPA: {edu.cgpa}
+                </div>
               </div>
-              <div className="px-6 py-2 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-full text-[#D4AF37] font-bold mono">
-                CGPA: {edu.cgpa}
-              </div>
+              
+              <p className="text-zinc-400 text-sm leading-relaxed mb-6 italic">
+                "{edu.description}"
+              </p>
             </div>
-            <div className="flex items-center gap-4 text-zinc-400 mb-6 flex-wrap">
-              <div className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>{edu.location}</span>
-              </div>
-              <span className="hidden md:inline mx-2 text-zinc-600">•</span>
-              <div className="flex items-center gap-2">
-                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>{edu.period}</span>
-              </div>
+
+            <div className="flex items-center gap-4 text-zinc-500 text-[11px] font-bold uppercase tracking-wider mt-auto pt-6 border-t border-white/5">
+              <span className="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                {edu.location}
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                {edu.period}
+              </span>
             </div>
-            <p className="text-zinc-400 leading-relaxed text-lg italic">
-              {edu.description}
-            </p>
           </div>
         ))}
       </div>

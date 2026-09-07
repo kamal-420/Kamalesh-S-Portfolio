@@ -136,7 +136,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           {/* Social Icons */}
           <div className="flex gap-3 pt-1">
             <a 
-              href="https://linkedin.com/in/kamalesh-s-56aa60330" 
+              href="https://www.linkedin.com/in/kamalesh-sekar-56aa60330" 
               target="_blank" 
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"

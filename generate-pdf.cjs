@@ -12,274 +12,261 @@ const outputPath = path.join(publicDir, 'Kamalesh_S_Resume.pdf');
 const doc = new PDFDocument({
   size: 'letter',
   margins: {
-    top: 36,
-    bottom: 36,
-    left: 40,
-    right: 40
-  }
+    top: 28,
+    bottom: 28,
+    left: 36,
+    right: 36
+  },
+  autoFirstPage: true
+});
+
+let pageCount = 1;
+doc.on('pageAdded', () => {
+  pageCount++;
 });
 
 const stream = fs.createWriteStream(outputPath);
 doc.pipe(stream);
 
-// Global styling constants
-const COLOR_PRIMARY = '#0F172A'; // Deep slate
-const COLOR_SECONDARY = '#475569'; // Soft slate
-const COLOR_ACCENT = '#B45309'; // Warm amber/gold
-const COLOR_TEXT = '#334155'; // Dark grey
-const COLOR_LINE = '#E2E8F0'; // Light divider
+// Styling constants
+const COLOR_PRIMARY = '#111827'; // Dark Slate / Near Black
+const COLOR_TEXT = '#1f2937'; // Body text
+const COLOR_LINE = '#374151'; // Dark divider line as shown in image
 
 // 1. Header Section
-doc.font('Helvetica-Bold')
-   .fontSize(22)
+doc.font('Times-Bold')
+   .fontSize(19)
    .fillColor(COLOR_PRIMARY)
    .text('KAMALESH S', { align: 'center' });
 
-doc.moveDown(0.2);
+doc.moveDown(0.15);
 
-doc.font('Helvetica')
+doc.font('Times-Italic')
    .fontSize(9.5)
-   .fillColor(COLOR_SECONDARY)
-   .text('B.Tech Information Technology Student | Aspiring Software Developer / Data Analyst', { align: 'center' });
+   .fillColor(COLOR_TEXT)
+   .text('B.Tech Information Technology Graduate | Aspiring Control Room Specialist / IT Systems Support', { align: 'center' });
 
-doc.moveDown(0.3);
+doc.moveDown(0.2);
 
 // Contact Info Line
-const contactInfo = 'Kallakurichi, Tamil Nadu  |  9677643687  |  kamaleshsekar9487@gmail.com';
-doc.font('Helvetica')
+doc.font('Times-Roman')
    .fontSize(8.5)
    .fillColor(COLOR_TEXT)
-   .text(contactInfo, { align: 'center' });
+   .text('Kallakurichi, Tamil Nadu | 9677643687 | kamalesh.s.it.2023@snsct.org', { align: 'center' });
 
-doc.moveDown(0.2);
+doc.moveDown(0.15);
 
-const linksInfo = 'LinkedIn: linkedin.com/in/kamalesh-s-56aa60330  |  GitHub: github.com/kamal-420  |  Portfolio: kamalesh-s-portfolio.netlify.app';
+const linksInfo = 'LinkedIn: linkedin.com/in/kamalesh-s-56aa60330 | GitHub: github.com/kamal-420 | Portfolio: kamal-s.netlify.app';
 doc.text(linksInfo, { align: 'center' });
 
-doc.moveDown(0.8);
+doc.moveDown(0.35);
 
 // Helper to draw section header with a nice line
 function drawSectionHeader(title) {
-  doc.font('Helvetica-Bold')
-     .fontSize(10.5)
+  doc.font('Times-Bold')
+     .fontSize(9.5)
      .fillColor(COLOR_PRIMARY)
-     .text(title.toUpperCase(), { characterSpacing: 0.5 });
+     .text(title.toUpperCase(), { characterSpacing: 0.3 });
   
-  const y = doc.y + 2;
-  doc.moveTo(40, y)
-     .lineTo(572, y)
+  const y = doc.y + 1;
+  doc.moveTo(36, y)
+     .lineTo(576, y)
      .strokeColor(COLOR_LINE)
-     .lineWidth(0.75)
+     .lineWidth(0.8)
      .stroke();
   
-  doc.moveDown(0.6);
+  doc.moveDown(0.3);
 }
 
 // 2. Professional Summary
 drawSectionHeader('Professional Summary');
-doc.font('Helvetica')
+doc.font('Times-Roman')
    .fontSize(8.5)
    .fillColor(COLOR_TEXT)
    .text(
-     'B.Tech Information Technology student with hands-on experience in Python, Java, SQL, and Full Stack Web Development, supported by verified training in Microsoft Azure Fundamentals, Cloud Computing, and Generative AI. Built AI-powered tools, including a code assistant and an ATS resume analyzer, using Python, Streamlit, and NLP. Also developed a desktop image/video compression utility and multiple responsive web applications using React, HTML5, CSS3, and Bootstrap. Completed Frontend Development training in HTML, CSS, and JavaScript, and Backend Development training in Node.js, MongoDB, and DBMS concepts. Seeking a Graduate Trainee / Software Engineer / Python Developer / Full Stack Developer / Data Analyst / Associate Software Engineer role to apply technical skills and deliver measurable impact on real-world projects.',
-     { align: 'justify', lineGap: 2 }
+     'B.Tech Information Technology graduate with hands-on experience in systems monitoring, troubleshooting, and cloud-based real-time data tracking, backed by verified training in Cloud Computing, Microsoft Azure Fundamentals, and Computer Systems Security. Built an AI-powered code assistant that detects errors and diagnoses issues, and an IoT pipeline that monitors sensor data in real time via AWS. Strong attention to detail, DBMS and database fundamentals, and a track record of quickly learning new tools and technologies across multiple certifications and hackathons. Seeking a Control Room Specialist / IT Systems Support role in a fast-paced, high-availability operational environment.',
+     { align: 'justify', lineGap: 1.2 }
    );
 
-doc.moveDown(1.0);
+doc.moveDown(0.35);
 
 // 3. Technical Skills
 drawSectionHeader('Technical Skills');
 
 const skillsData = [
-  { label: 'Programming Languages', val: 'Python, Java, C, C++, JavaScript' },
+  { label: 'Systems & Monitoring', val: 'Real-Time Data Monitoring, Cloud Computing, AWS (IoT), Microsoft Azure Fundamentals (AZ-900)' },
   { label: 'Databases', val: 'SQL, DBMS, MySQL, MongoDB' },
-  { label: 'Data Analysis & Visualization Tools', val: 'Microsoft Excel (Formulas, Pivot Tables), Power BI, Data Visualization' },
-  { label: 'Cloud & AI', val: 'Microsoft Azure Fundamentals (AZ-900), AWS (IoT), Cloud Computing, Generative AI, OpenAI API, NLP' },
-  { label: 'Web Technologies', val: 'HTML5, CSS3, JavaScript, React, Node.js, Bootstrap, Streamlit, CustomTkinter' },
-  { label: 'Developer Tools', val: 'Git, GitHub, Visual Studio Code, FFmpeg' },
-  { label: 'Core CS Concepts', val: 'Data Structures, Object-Oriented Programming (OOP), DBMS, Problem-Solving' },
-  { label: 'Soft Skills', val: 'Communication, Teamwork & Collaboration, Leadership, Time Management' }
+  { label: 'Programming Languages', val: 'Python, Java, C, JavaScript' },
+  { label: 'Troubleshooting & Support Tools', val: 'Error Detection & Debugging (OpenAI API-based tooling), NLP, PDF Processing' },
+  { label: 'Data Analysis Tools', val: 'Microsoft Excel (Formulas, Pivot Tables), Power BI, Data Visualization' },
+  { label: 'Developer Tools', val: 'Git, GitHub, Visual Studio Code' },
+  { label: 'Core Concepts', val: 'Data Structures, Object-Oriented Programming (OOP), Problem-Solving' },
+  { label: 'Soft Skills', val: 'Communication, Teamwork & Collaboration, Attention to Detail, Time Management' }
 ];
 
 skillsData.forEach(item => {
-  doc.font('Helvetica-Bold')
-     .fontSize(8.5)
+  doc.font('Times-Bold')
+     .fontSize(8.2)
      .fillColor(COLOR_PRIMARY)
      .text(item.label + ': ', { continued: true })
-     .font('Helvetica')
+     .font('Times-Roman')
      .fillColor(COLOR_TEXT)
-     .text(item.val, { lineGap: 1 });
+     .text(item.val, { lineGap: 0.8 });
 });
 
-doc.moveDown(1.0);
+doc.moveDown(0.35);
 
 // 4. Education
 drawSectionHeader('Education');
 
 // Education Entry 1
-doc.font('Helvetica-Bold')
-   .fontSize(9)
+doc.font('Times-Bold')
+   .fontSize(8.5)
    .fillColor(COLOR_PRIMARY)
    .text('B.Tech, Information Technology', { continued: true })
-   .font('Helvetica')
+   .font('Times-Roman')
    .fillColor(COLOR_TEXT)
    .text(' | SNS College of Technology, Coimbatore, Tamil Nadu', { continued: true })
-   .font('Helvetica-Bold')
-   .text('   CGPA: 7.3', { align: 'right' });
+   .font('Times-Roman')
+   .text('CGPA: 7.52', { align: 'right' });
 
-doc.moveDown(0.2);
+doc.moveDown(0.15);
 
 // Education Entry 2
-doc.font('Helvetica-Bold')
-   .fontSize(9)
+doc.font('Times-Bold')
+   .fontSize(8.5)
    .fillColor(COLOR_PRIMARY)
    .text('Diploma, Computer Science Engineering', { continued: true })
-   .font('Helvetica')
+   .font('Times-Roman')
    .fillColor(COLOR_TEXT)
-   .text(' | Muthayammal Polytechnic College, Namakkal, Tamil Nadu', { continued: true })
-   .font('Helvetica-Bold')
-   .text('   CGPA: 84%', { align: 'right' });
+   .text(' | Muthayammal Polytechnic College, Namakkal (2021 – 2024)', { continued: true })
+   .font('Times-Roman')
+   .text('CGPA: 84%', { align: 'right' });
 
-doc.moveDown(1.0);
+doc.moveDown(0.35);
 
-// 5. Projects
-drawSectionHeader('Projects');
+// 5. Relevant Projects
+drawSectionHeader('Relevant Projects');
 
 const projects = [
   {
+    title: 'Sense-to-Cloud — Real-Time IoT Monitoring with Raspberry Pi & AWS',
+    bullets: [
+      'Implemented an end-to-end IoT pipeline connecting Raspberry Pi sensors to AWS cloud services for continuous, real-time data monitoring — directly applying dashboard and alert-based system monitoring.'
+    ]
+  },
+  {
+    title: 'AI Code Assistant — Error Detection & Diagnostic Tool',
+    bullets: [
+      'Built an AI-powered tool using the OpenAI API and Streamlit that detects code errors, explains root causes, and suggests fixes — applying systematic issue investigation and troubleshooting.',
+      'Designed the frontend interface with HTML and CSS for a clear, user-friendly diagnostic experience.'
+    ]
+  },
+  {
+    title: 'AI ATS Resume Analyzer — Data Analysis & Compatibility Scoring Tool',
+    bullets: [
+      'Developed a Python and Streamlit tool that analyzes documents against a rule set, identifies gaps, and generates accuracy-based scoring and recommendations.'
+    ]
+  },
+  {
     title: 'SmartCompress — Desktop Image & Video Compression Tool',
     bullets: [
-      'Engineered a Python desktop application with CustomTkinter for batch image and video compression, preserving original folder structure across processed files.',
-      'Integrated FFmpeg for video compression and Pillow for image processing, with multi-threading to keep the UI responsive and display live compression statistics.'
-    ]
-  },
-  {
-    title: 'AI Code Assistant',
-    bullets: [
-      'Built an AI-powered coding assistant using the OpenAI API and Streamlit that explains code, detects errors, suggests improvements, and generates code snippets.',
-      'Designed the frontend interface with HTML and CSS for an interactive, user-friendly coding support experience.'
-    ]
-  },
-  {
-    title: 'AI ATS Resume Analyzer',
-    bullets: [
-      'Developed an AI-powered resume analyzer in Python and Streamlit that evaluates ATS compatibility, identifies missing keywords, and recommends improvements.',
-      'Applied NLP techniques and PDF processing to parse resume content and generate keyword-based scoring and recommendations.'
-    ]
-  },
-  {
-    title: 'Portfolio Website',
-    bullets: [
-      'Built a responsive personal portfolio using React.js, JavaScript, HTML5, CSS3, and Bootstrap, showcasing projects, skills, internships, and certifications; version-controlled on GitHub and deployed on Netlify.'
-    ]
-  },
-  {
-    title: 'Responsive Web Development Using Frontend Technologies',
-    bullets: [
-      'Created a fully responsive, cross-browser website using HTML5, CSS3, JavaScript, and Bootstrap with reusable React components, version-controlled via Git and GitHub.'
-    ]
-  },
-  {
-    title: 'Sense-to-Cloud: IoT with Raspberry Pi & AWS',
-    bullets: [
-      'Implemented an end-to-end IoT pipeline connecting Raspberry Pi sensors to AWS cloud services for real-time data monitoring.'
+      'Engineered a Python desktop application with multi-threading and live status tracking, monitoring batch job progress and processing statistics in real time.'
     ]
   }
 ];
 
 projects.forEach(proj => {
-  doc.font('Helvetica-Bold')
+  doc.font('Times-Bold')
      .fontSize(8.5)
      .fillColor(COLOR_PRIMARY)
-     .text(proj.title, { lineGap: 1 });
+     .text(proj.title, { lineGap: 0.8 });
   
   proj.bullets.forEach(bullet => {
-    doc.font('Helvetica')
-       .fontSize(8)
+    doc.font('Times-Roman')
+       .fontSize(8.2)
        .fillColor(COLOR_TEXT)
-       .text('•  ' + bullet, { indent: 10, lineGap: 1.5, align: 'justify' });
+       .text('●   ' + bullet, { indent: 12, lineGap: 1.2, align: 'justify' });
   });
-  doc.moveDown(0.4);
+  doc.moveDown(0.18);
 });
 
-doc.moveDown(0.6);
+doc.moveDown(0.2);
 
-// 6. Internships
-drawSectionHeader('Internships');
+// 6. Experience
+drawSectionHeader('Experience');
 
-// Internship 1
-doc.font('Helvetica-Bold')
-   .fontSize(9)
-   .fillColor(COLOR_PRIMARY)
-   .text('Frontend Development Intern', { continued: true })
-   .font('Helvetica')
-   .fillColor(COLOR_TEXT)
-   .text(' | dsignz media, Coimbatore', { continued: true })
-   .font('Helvetica-Bold')
-   .text('   Jun – Jul 2025 (21 Days)', { align: 'right' });
-
-doc.font('Helvetica')
-   .fontSize(8)
-   .fillColor(COLOR_TEXT)
-   .text('•  Completed a 21-day industry training program in Frontend Development, applying HTML, CSS, and JavaScript in hands-on UI exercises.', { indent: 10, lineGap: 1.5 });
-
-doc.moveDown(0.3);
-
-// Internship 2
-doc.font('Helvetica-Bold')
-   .fontSize(9)
+// Experience Entry 1
+doc.font('Times-Bold')
+   .fontSize(8.5)
    .fillColor(COLOR_PRIMARY)
    .text('Backend Development Intern', { continued: true })
-   .font('Helvetica')
+   .font('Times-Roman')
    .fillColor(COLOR_TEXT)
    .text(' | LET\'S GAMETECH, Coimbatore', { continued: true })
-   .font('Helvetica-Bold')
-   .text('   Dec 2025 (30 Days)', { align: 'right' });
+   .text('Dec 2025 (30 Days)', { align: 'right' });
 
-doc.font('Helvetica')
-   .fontSize(8)
+doc.font('Times-Roman')
+   .fontSize(8.2)
    .fillColor(COLOR_TEXT)
-   .text('•  Trained in Node.js, MongoDB, and DBMS-based backend development through a 30-day industrial internship, applying concepts to real-world application logic.', { indent: 10, lineGap: 1.5 });
+   .text('●   Trained in Node.js, MongoDB, and DBMS-based backend development through a 30-day industrial internship, applying concepts to real-world application logic and troubleshooting.', { indent: 12, lineGap: 1.2, align: 'justify' });
 
-doc.moveDown(1.0);
+doc.moveDown(0.18);
+
+// Experience Entry 2
+doc.font('Times-Bold')
+   .fontSize(8.5)
+   .fillColor(COLOR_PRIMARY)
+   .text('Frontend Development Intern', { continued: true })
+   .font('Times-Roman')
+   .fillColor(COLOR_TEXT)
+   .text(' | dsignz media, Coimbatore', { continued: true })
+   .text('Jun – Jul 2025 (21 Days)', { align: 'right' });
+
+doc.font('Times-Roman')
+   .fontSize(8.2)
+   .fillColor(COLOR_TEXT)
+   .text('●   Completed a 21-day industry training program in Frontend Development, applying HTML, CSS, and JavaScript in hands-on UI exercises requiring close attention to detail.', { indent: 12, lineGap: 1.2, align: 'justify' });
+
+doc.moveDown(0.35);
 
 // 7. Certifications
 drawSectionHeader('Certifications');
 
 const certs = [
-  'Microsoft Azure Fundamentals (AZ-900) — Cursa  |  Cloud Computing: Beginner to Advanced — University of Illinois, via Cursa',
-  'Full Stack Web Development — Cursa  |  Computer Systems Security — MIT, via Cursa',
+  'Microsoft Azure Fundamentals (AZ-900) — Cursa | Cloud Computing: Beginner to Advanced — University of Illinois, via Cursa',
+  'Computer Systems Security — MIT, via Cursa | Full Stack Web Development — Cursa',
   'Career Essentials in Generative AI — Microsoft & LinkedIn Learning',
-  'Diploma in Computer Application (DCA), Grade A — CSC  |  Computer Hardware & Networking (80 hrs) and Android Development (80 hrs) — Value Added Institute, Salem'
+  'Diploma in Computer Application (DCA), Grade A — CSC | Computer Hardware & Networking (80 hrs) and Android Development (80 hrs) — Value Added Institute, Salem'
 ];
 
 certs.forEach(cert => {
-  doc.font('Helvetica')
-     .fontSize(8)
+  doc.font('Times-Roman')
+     .fontSize(8.2)
      .fillColor(COLOR_TEXT)
-     .text('•  ' + cert, { indent: 10, lineGap: 1.5 });
+     .text('●   ' + cert, { indent: 12, lineGap: 1.2 });
 });
 
-doc.moveDown(1.0);
+doc.moveDown(0.35);
 
 // 8. Achievements & Hackathons
 drawSectionHeader('Achievements & Hackathons');
 
 const achievements = [
   'Secured 2nd Place in Skillathon \'26 — Sri Ramakrishna College of Arts & Science, Coimbatore',
-  'Participated in Adobe India Hackathon, MOSIP Decode 2025 (IIIT Bangalore), and Odoo x SNS Hiring Hackathon \'26, via Unstop',
+  'Participated in Adobe India Hackathon, MOSIP Decode 2025 (IIIT Bangalore), and Odoo x SNS Coimbatore Hiring Hackathon \'26, via Unstop',
   'Attended the AR/VR: Creating Immersive Experience for Beginners workshop at NETRIX \'25, KPR Institute of Engineering and Technology'
 ];
 
 achievements.forEach(ach => {
-  doc.font('Helvetica')
-     .fontSize(8)
+  doc.font('Times-Roman')
+     .fontSize(8.2)
      .fillColor(COLOR_TEXT)
-     .text('•  ' + ach, { indent: 10, lineGap: 1.5 });
+     .text('●   ' + ach, { indent: 12, lineGap: 1.2 });
 });
 
 doc.end();
 
 stream.on('finish', () => {
-  console.log('PDF Resume generated successfully at ' + outputPath);
+  console.log(`PDF Resume generated successfully at ${outputPath} with ${pageCount} page(s).`);
 });

@@ -12,17 +12,17 @@ const About: React.FC = () => {
         <div className="lg:col-span-7 space-y-8">
           <div className="space-y-6 text-zinc-300 text-base md:text-lg leading-relaxed">
             <p>
-              I am <span className="text-[#D4AF37] font-semibold">Kamalesh S</span>, an ambitious B.Tech Information Technology student at <span className="text-white font-medium">SNS College of Technology</span>, Coimbatore. I specialize in building high-performance frontend interfaces, scalable code logic, and robust software solutions.
+              I am <span className="text-[#D4AF37] font-semibold">Kamalesh S</span>, a B.Tech Information Technology graduate from <span className="text-white font-medium">SNS College of Technology</span>, Coimbatore. I have hands-on experience in systems monitoring, troubleshooting, and cloud-based real-time data tracking, backed by verified credentials in Cloud Computing, Microsoft Azure Fundamentals, and Computer Systems Security.
             </p>
             <p>
-              My expertise is grounded in modern programming paradigms including <span className="text-[#D4AF37] font-medium">Python, Java, and Full-Stack Web Technologies</span>, backed by rigorous specialized industry training and cloud certifications. I love turning complex logic into polished, simple, and recruiter-focused user experiences.
+              My expertise spans <span className="text-[#D4AF37] font-medium">real-time IoT monitoring, error diagnostics, and database management</span> (SQL, MySQL, MongoDB). I have engineered AI-powered diagnostic tools, IoT telemetry pipelines connecting Raspberry Pi to AWS, and desktop multi-threaded utilities.
             </p>
           </div>
 
           <div className="border-l-2 border-[#D4AF37]/40 pl-6 space-y-3">
             <h4 className="text-xs uppercase tracking-widest font-bold text-[#D4AF37]">Career Objective</h4>
             <p className="text-zinc-400 text-sm leading-relaxed italic">
-              "Seeking a Graduate Trainee, Software Engineer, or Data Analyst role at a forward-thinking product-based company where I can apply my engineering discipline, core analytical skills, and hands-on full-stack competence to solve high-impact problems."
+              "Seeking a Control Room Specialist / IT Systems Support role in a fast-paced, high-availability operational environment where I can apply my systems monitoring expertise, rapid diagnostic capabilities, and disciplined database fundamentals."
             </p>
           </div>
         </div>
@@ -38,7 +38,7 @@ const About: React.FC = () => {
 
           <div className="royal-card p-6 rounded-2xl bg-[#121217] border border-white/5 hover:border-[#D4AF37]/30 transition-all duration-300">
             <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-1">Academic Grade</span>
-            <span className="text-white font-bold text-lg block">7.3 CGPA</span>
+            <span className="text-white font-bold text-lg block">7.52 CGPA</span>
             <span className="text-zinc-400 text-xs block mt-1">Information Technology</span>
           </div>
 

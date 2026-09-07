@@ -3,28 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kamalesh S | Royal Portfolio - Frontend Architect</title>
+    <title>Kamalesh S | Royal Portfolio</title>
     
+    <!-- Theme Flash Prevention -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+          } else {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Personal portfolio of Kamalesh S, a B.Tech IT student specialized in Frontend Engineering, Cloud, and Digital Architecture. Explore my latest projects and technical expertise.">
-    <meta name="keywords" content="Kamalesh S, Portfolio, Frontend Developer, B.Tech IT, SNS College of Technology, React Developer, Web Design">
+    <meta name="description" content="Personal Portfolio of Kamalesh S, B.Tech IT student &amp; Frontend Architect, featuring an interactive Gemini AI Assistant.">
+    <meta name="keywords" content="Kamalesh S, Portfolio, Systems Monitoring, Control Room Specialist, IT Support, B.Tech IT, SNS College of Technology, React Developer, Web Design">
     <meta name="author" content="Kamalesh S">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kamalesh-s.netlify.app/">
     <meta property="og:title" content="Kamalesh S | Royal Portfolio">
-    <meta property="og:description" content="Digital Architect crafting high-performance user experiences.">
-    <meta property="og:image" content="https://lh3.googleusercontent.com/d/1LJ_XoEmBCYSHXg_v1H4640f874XjW578">
+    <meta property="og:description" content="Personal Portfolio of Kamalesh S, B.Tech IT student &amp; Frontend Architect, featuring an interactive Gemini AI Assistant.">
+    <meta property="og:image" content="/kamalesh_photo.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://kamalesh-s.netlify.app/">
     <meta property="twitter:title" content="Kamalesh S | Royal Portfolio">
-    <meta property="twitter:description" content="Digital Architect crafting high-performance user experiences.">
-    <meta property="twitter:image" content="https://lh3.googleusercontent.com/d/1LJ_XoEmBCYSHXg_v1H4640f874XjW578">
+    <meta property="twitter:description" content="Personal Portfolio of Kamalesh S, B.Tech IT student &amp; Frontend Architect, featuring an interactive Gemini AI Assistant.">
+    <meta property="twitter:image" content="/kamalesh_photo.jpg">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              gold: '#D4AF37',
+            }
+          }
+        }
+      };
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,12 +70,12 @@
         }
 
         html:not(.dark) {
-            --bg-primary: #fdfdfb;
-            --text-primary: #111111;
-            --text-secondary: #555555;
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --border-color: rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(253, 253, 251, 0.8);
+            --bg-primary: #F8F9FA;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --card-bg: #FFFFFF;
+            --border-color: rgba(212, 175, 55, 0.2);
+            --nav-bg: rgba(248, 249, 250, 0.9);
         }
 
         body {
@@ -58,6 +84,98 @@
             color: var(--text-primary);
             overflow-x: hidden;
             min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Light Mode Full Theme Overrides */
+        html:not(.dark) body {
+            background-color: #F8F9FA !important;
+            color: #111827 !important;
+        }
+
+        html:not(.dark) nav {
+            background-color: rgba(248, 249, 250, 0.95) !important;
+            border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html:not(.dark) nav a span.text-white {
+            color: #111827 !important;
+        }
+
+        html:not(.dark) [class*="bg-[#0B0B0F]"] {
+            background-color: #F8F9FA !important;
+        }
+
+        html:not(.dark) [class*="bg-[#121217]"],
+        html:not(.dark) [class*="bg-[#0E0E12]"],
+        html:not(.dark) [class*="bg-zinc-900"] {
+            background-color: #FFFFFF !important;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06) !important;
+        }
+
+        html:not(.dark) [class*="border-white/"] {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html:not(.dark) [class*="bg-white/5"],
+        html:not(.dark) [class*="bg-white/3"] {
+            background-color: rgba(0, 0, 0, 0.03) !important;
+        }
+
+        html:not(.dark) .text-white {
+            color: #111827 !important;
+        }
+
+        html:not(.dark) .text-zinc-300,
+        html:not(.dark) .text-zinc-400 {
+            color: #4B5563 !important;
+        }
+
+        html:not(.dark) .text-zinc-500 {
+            color: #6B7280 !important;
+        }
+
+        html:not(.dark) .royal-card {
+            background: #FFFFFF !important;
+            border-color: rgba(212, 175, 55, 0.25) !important;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.07) !important;
+        }
+
+        html:not(.dark) input,
+        html:not(.dark) textarea {
+            background-color: #FFFFFF !important;
+            color: #111827 !important;
+            border-color: rgba(0, 0, 0, 0.15) !important;
+        }
+
+        html:not(.dark) input::placeholder,
+        html:not(.dark) textarea::placeholder {
+            color: #9CA3AF !important;
+        }
+
+        html:not(.dark) footer {
+            background-color: #FFFFFF !important;
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html:not(.dark) #kbot-chat-window {
+            background-color: #FFFFFF !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        html:not(.dark) #kbot-chat-window .bg-\[\#121217\] {
+            background-color: #F8F9FA !important;
+        }
+
+        html:not(.dark) #kbot-chat-window .bg-\[\#0A0A10\]\/90 {
+            background-color: #F3F4F6 !important;
+        }
+
+        html:not(.dark) #mobile-menu {
+            background-color: #FFFFFF !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
         }
 
         .royal-text { font-family: 'Playfair Display', serif; }
@@ -80,6 +198,24 @@
             box-shadow: 0 20px 40px -20px var(--gold-glow);
         }
 
+        /* Suppress any dev debug panel, error overlays, or log badges from user view */
+        vite-error-overlay,
+        #debug-panel,
+        .debug-panel,
+        #dev-toolbar,
+        .dev-toolbar,
+        [data-testid="error-overlay"],
+        [data-testid="debug-overlay"],
+        [class*="debug-overlay"],
+        [class*="log-drawer"],
+        [class*="error-overlay"],
+        [class*="log-panel"] {
+            display: none !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            opacity: 0 !important;
+        }
+
         /* Minimal Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -87,23 +223,9 @@
         ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
     </style>
 
-    <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
-  }
-}
-</script>
-    <script type="module" src="./index.tsx"></script>
-<link rel="stylesheet" href="/index.css">
+    <script type="module" src="/index.tsx"></script>
 </head>
 <body>
     <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
 </body>
 </html>

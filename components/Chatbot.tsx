@@ -78,7 +78,6 @@ const Chatbot: React.FC = () => {
         timestamp: new Date()
       }]);
     } catch (err: any) {
-      console.error(err);
       setErrorMsg(err.message || 'An unexpected connection issue occurred.');
     } finally {
       setIsLoading(false);
@@ -91,16 +90,14 @@ const Chatbot: React.FC = () => {
   };
 
   const handleResetChat = () => {
-    if (window.confirm('Clear conversation history?')) {
-      setMessages([
-        {
-          role: 'assistant',
-          content: "Hello again! How can I help you explore Kamalesh's portfolio today?",
-          timestamp: new Date()
-        }
-      ]);
-      setErrorMsg(null);
-    }
+    setMessages([
+      {
+        role: 'assistant',
+        content: "Hello again! How can I help you explore Kamalesh's portfolio today?",
+        timestamp: new Date()
+      }
+    ]);
+    setErrorMsg(null);
   };
 
   const suggestions = [
@@ -159,11 +156,12 @@ const Chatbot: React.FC = () => {
       {/* Floating Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-40 h-14 px-5 bg-gradient-to-r from-[#121217] to-[#1a1a24] border border-[#D4AF37]/30 hover:border-[#D4AF37]/80 hover:shadow-[0_0_15px_rgba(212,175,55,0.25)] rounded-2xl flex items-center gap-3 text-white transition-all cursor-pointer group shadow-2xl"
+        className="fixed bottom-5 sm:bottom-6 right-5 sm:right-6 z-40 h-12 sm:h-14 px-4 sm:px-5 bg-gradient-to-r from-[#121217] to-[#1a1a24] border border-[#D4AF37]/30 hover:border-[#D4AF37]/80 hover:shadow-[0_0_15px_rgba(212,175,55,0.25)] rounded-2xl flex items-center gap-2.5 sm:gap-3 text-white transition-all cursor-pointer group shadow-2xl"
         id="kbot-trigger-btn"
+        aria-label="Toggle K-Bot AI Assistant"
       >
         <div className="relative">
-          <MessageSquare className="w-5 h-5 text-[#D4AF37] group-hover:scale-110 transition-transform" />
+          <MessageSquare className="w-4 sm:w-5 h-4 sm:h-5 text-[#D4AF37] group-hover:scale-110 transition-transform" />
           <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 bg-green-500 border border-[#121217] rounded-full animate-pulse"></span>
         </div>
         <span className="text-xs font-bold uppercase tracking-[0.15em] bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent group-hover:from-white group-hover:to-white">
@@ -174,7 +172,7 @@ const Chatbot: React.FC = () => {
       {/* Chat Window Box */}
       {isOpen && (
         <div 
-          className="fixed bottom-24 right-6 z-50 w-[92vw] sm:w-[420px] h-[550px] bg-[#0C0C12] border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col backdrop-blur-xl animate-fade-in-up"
+          className="fixed bottom-20 sm:bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[420px] max-h-[calc(100vh-7rem)] h-[550px] bg-[#0C0C12] border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col backdrop-blur-xl animate-fade-in-up"
           id="kbot-chat-window"
         >
           {/* Header */}

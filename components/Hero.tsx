@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { DEFAULT_PHOTO } from '../src/photoData.ts';
 
 interface HeroProps {
   onNavigate: (id: string) => void;
@@ -7,6 +8,11 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const [scrollY, setScrollY] = useState(0);
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('Copied to Clipboard!');
+  const [photoUrl, setPhotoUrl] = useState<string>(() => {
+    return localStorage.getItem('kamalesh_photo') || DEFAULT_PHOTO;
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -14,19 +20,84 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleResumeDownload = () => {
-    window.open('/Kamalesh_S_Resume.pdf', '_blank');
+  // Global paste handler: if user copies an image and presses Ctrl+V anywhere, it seamlessly updates photo
+  useEffect(() => {
+    const handlePaste = (e: ClipboardEvent) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const file = items[i].getAsFile();
+          if (file) {
+            processImageFile(file);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, []);
+
+  const processImageFile = (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const base64Data = event.target?.result as string;
+      if (base64Data) {
+        setPhotoUrl(base64Data);
+        localStorage.setItem('kamalesh_photo', base64Data);
+        setToastMessage('Photo Updated Successfully!');
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2500);
+
+        try {
+          await fetch('/api/upload-photo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ imageBase64: base64Data })
+          });
+        } catch (err) {
+          console.warn('Failed to sync photo to server:', err);
+        }
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      processImageFile(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      processImageFile(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
   };
 
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.preventDefault();
     navigator.clipboard.writeText("kamaleshsekar9487@gmail.com");
+    setToastMessage('Email Copied to Clipboard!');
     setShowToast(true);
     setTimeout(() => setShowToast(false), 2000);
   };
 
   return (
-    <div className="relative min-h-[100svh] flex items-center justify-center overflow-hidden py-16 lg:py-0 bg-[#0B0B0F]">
+    <div className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-20 pb-24 lg:py-16 bg-[#0B0B0F]">
       
       {/* Absolute background accent - minimalist and extremely subtle */}
       <div 
@@ -55,11 +126,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </h1>
 
           <h2 className="text-lg md:text-xl font-bold tracking-tight text-zinc-300 pb-2 border-b border-white/5 w-full">
-            Software Engineer <span className="text-[#D4AF37]">|</span> AI &amp; Data Analytics Enthusiast
+            Control Room Specialist &amp; IT Systems Support <span className="text-[#D4AF37]">|</span> Systems Monitoring &amp; Cloud
           </h2>
           
           <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-xl">
-            I am a B.Tech Information Technology student passionate about Software Development, AI, Data Analytics, and Full Stack Web Development. I enjoy building practical solutions and continuously learning modern technologies.
+            B.Tech Information Technology graduate with hands-on experience in systems monitoring, troubleshooting, and cloud-based real-time data tracking, backed by verified training in Cloud Computing, Microsoft Azure Fundamentals, and Computer Systems Security.
           </p>
 
           {/* Social Icons */}
@@ -102,13 +173,16 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
 
-            <button 
-              onClick={handleResumeDownload}
-              className="h-11 px-6 border border-white/15 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-white/5 hover:border-[#D4AF37]/50 transition-all flex items-center justify-center gap-2 bg-white/3 w-full sm:w-auto"
+            <a 
+              href="/Kamalesh_S_Resume.pdf"
+              download="Kamalesh_S_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-11 px-6 border border-white/15 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-white/5 hover:border-[#D4AF37]/50 transition-all flex items-center justify-center gap-2 bg-white/3 w-full sm:w-auto cursor-pointer"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
               <span>Download Resume</span>
-            </button>
+            </a>
 
             <button 
               onClick={() => onNavigate('contact')}
@@ -120,19 +194,34 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Right Side: Elegant Profile Image Card (No spinning circles, rotating borders or pulsing rings) */}
+        {/* Right Side: Clean, Professional Portfolio Profile Photo Section */}
+        {/* 3:4 portrait aspect ratio, showing only the person standing confidently in black suit with white shirt */}
+        {/* No upload buttons, no icons, no instructions, no borders, no cards, no UI elements */}
         <div className="lg:col-span-5 flex justify-center items-center">
-          <div className="relative w-full max-w-[240px] sm:max-w-[270px] aspect-square rounded-2xl border border-white/10 shadow-lg overflow-hidden bg-[#121217]">
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleFileChange} 
+            accept="image/*" 
+            className="hidden" 
+          />
+          <div 
+            onClick={() => fileInputRef.current?.click()}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl cursor-pointer"
+          >
             <img 
-              src="https://lh3.googleusercontent.com/d/1LJ_XoEmBCYSHXg_v1H4640f874XjW578" 
-              alt="Kamalesh S" 
-              className="w-full h-full object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-700 hover:scale-105"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "https://picsum.photos/seed/kamalesh/800/800";
+              src={photoUrl} 
+              alt="Kamalesh S - Systems Support & Software Engineer" 
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-center"
+              onError={() => {
+                if (photoUrl !== DEFAULT_PHOTO) {
+                  setPhotoUrl(DEFAULT_PHOTO);
+                }
               }}
             />
-            {/* Subtle top light overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0F]/40 via-transparent to-transparent pointer-events-none"></div>
           </div>
         </div>
 
@@ -140,7 +229,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
       {/* Subtle Scroll Indicator */}
       <div 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer z-20 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity" 
+        className="hidden md:flex absolute bottom-5 left-1/2 -translate-x-1/2 cursor-pointer z-20 flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity" 
         onClick={() => onNavigate('about')}
       >
         <span className="text-[8px] uppercase tracking-[0.4em] text-zinc-500 font-bold">Scroll Down</span>
@@ -153,7 +242,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       {showToast && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#121217] border border-[#D4AF37]/30 text-white px-4 py-3 rounded-xl shadow-2xl animate-toast backdrop-blur-md">
           <div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></div>
-          <span className="text-xs font-bold uppercase tracking-wider text-zinc-200">Copied to Clipboard!</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-zinc-200">{toastMessage}</span>
         </div>
       )}
 

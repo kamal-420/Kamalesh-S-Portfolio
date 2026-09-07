@@ -100,16 +100,21 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
         </div>
 
         {/* Mobile Toggle */}
-        <div className="md:hidden flex items-center gap-4">
+        <div className="md:hidden flex items-center gap-2">
           <ThemeToggle />
-          <button onClick={toggleMenu} className="text-[#D4AF37] p-2 focus:outline-none" aria-label="Toggle Menu">
+          <button 
+            type="button"
+            onClick={toggleMenu} 
+            className="text-[#D4AF37] min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-white/5 active:scale-95 transition-all focus:outline-none cursor-pointer" 
+            aria-label="Toggle Menu"
+          >
             {isMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             )}
           </button>
@@ -117,8 +122,8 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div className={`md:hidden absolute top-full left-0 right-0 bg-[#0B0B0F]/95 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ease-in-out overflow-hidden ${
-        isMenuOpen ? 'max-h-screen opacity-100 py-6' : 'max-h-0 opacity-0 py-0'
+      <div className={`md:hidden absolute top-full left-0 right-0 bg-[#0B0B0F]/98 backdrop-blur-2xl border-b border-white/10 transition-all duration-300 ease-in-out overflow-hidden z-50 ${
+        isMenuOpen ? 'max-h-screen opacity-100 py-6 pointer-events-auto shadow-2xl' : 'max-h-0 opacity-0 py-0 pointer-events-none'
       }`}>
         <div className="flex flex-col items-center space-y-6">
           {navItems.map((item) => (

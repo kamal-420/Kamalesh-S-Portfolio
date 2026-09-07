@@ -8,6 +8,24 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        hmr: {
+          clientPort: 443,
+        }
+      },
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks(id) {
+              if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+                return 'react-vendor';
+              }
+              if (id.includes('node_modules/lucide-react/')) {
+                return 'lucide-icons';
+              }
+            }
+          }
+        },
+        chunkSizeWarningLimit: 600
       },
       plugins: [react()],
       define: {

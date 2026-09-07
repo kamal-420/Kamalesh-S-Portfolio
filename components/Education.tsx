@@ -8,14 +8,14 @@ const Education: React.FC = () => {
       institution: "SNS College of Technology",
       location: "Coimbatore, Tamil Nadu",
       period: "2024 - 2027",
-      cgpa: "7.3",
+      cgpa: "7.52",
       description: "Focused on Software Engineering, Data Structures & Algorithms, Database Management Systems, and Cloud Architectures. Active participant in technical symposiums, hackathons, and hands-on workshops."
     },
     {
       degree: "Diploma in Computer Science Engineering",
       institution: "Muthayammal Polytechnic College",
       location: "Namakkal, Tamil Nadu",
-      period: "2022 - 2024",
+      period: "2021 - 2024",
       cgpa: "84%",
       description: "Acquired rigorous fundamentals in structured programming, Object-Oriented paradigms (C++, Java), basic networking, and relational database systems."
     }

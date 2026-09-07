@@ -18,31 +18,40 @@ const Projects: React.FC = () => {
 
   const projectsData: Project[] = [
     {
-      title: "SmartCompress — Desktop Image & Video Compression Tool",
-      description: "Engineered a Python desktop application with CustomTkinter for batch image and video compression, preserving original folder structure. Integrated FFmpeg and Pillow with multi-threading to ensure a highly responsive UI with live compression stats.",
-      tech: ["Python", "CustomTkinter", "FFmpeg", "Pillow", "Multi-threading"],
+      title: "Sense-to-Cloud — Real-Time IoT Monitoring with Raspberry Pi & AWS",
+      description: "Implemented an end-to-end IoT pipeline connecting Raspberry Pi sensors to AWS cloud services for continuous, real-time data monitoring — directly applying dashboard and alert-based system monitoring.",
+      tech: ["IoT", "Raspberry Pi", "AWS Cloud", "Sensors", "MQTT", "Real-Time Telemetry"],
       githubLink: "https://github.com/kamal-420",
       demoLink: "https://github.com/kamal-420",
       category: "Systems & IoT",
-      gradient: "from-amber-500/20 via-[#D4AF37]/10 to-transparent"
+      gradient: "from-orange-500/20 via-amber-500/10 to-transparent"
     },
     {
-      title: "AI Code Assistant",
-      description: "Built an AI-powered coding assistant that explains complex code blocks, detects bugs, suggests optimizations, and generates code snippets. Designed a custom responsive front-end interface for an interactive, seamless user experience.",
-      tech: ["Python", "OpenAI API", "Streamlit", "HTML5", "CSS3"],
+      title: "AI Code Assistant — Error Detection & Diagnostic Tool",
+      description: "Built an AI-powered tool using the OpenAI API and Streamlit that detects code errors, explains root causes, and suggests fixes — applying systematic issue investigation and troubleshooting. Designed the frontend interface with HTML and CSS for a clear, user-friendly diagnostic experience.",
+      tech: ["Python", "OpenAI API", "Streamlit", "HTML5", "CSS3", "Diagnostics"],
       githubLink: "https://github.com/kamal-420",
       demoLink: "https://github.com/kamal-420",
       category: "AI & Intelligence",
       gradient: "from-blue-500/20 via-indigo-500/10 to-transparent"
     },
     {
-      title: "AI ATS Resume Analyzer",
-      description: "Developed an AI-driven resume reviewer that evaluates ATS format compatibility, parses content using NLP, identifies missing keywords, and recommends tailored enhancements to maximize interview callback rates.",
+      title: "AI ATS Resume Analyzer — Data Analysis & Compatibility Scoring Tool",
+      description: "Developed a Python and Streamlit tool that analyzes documents against a rule set, identifies gaps, and generates accuracy-based scoring and recommendations using NLP and PDF processing.",
       tech: ["Python", "Streamlit", "OpenAI API", "NLP", "PDF Processing"],
       githubLink: "https://github.com/kamal-420",
       demoLink: "https://github.com/kamal-420",
       category: "AI & Intelligence",
       gradient: "from-emerald-500/20 via-teal-500/10 to-transparent"
+    },
+    {
+      title: "SmartCompress — Desktop Image & Video Compression Tool",
+      description: "Engineered a Python desktop application with multi-threading and live status tracking, monitoring batch job progress and processing statistics in real time using CustomTkinter, FFmpeg, and Pillow.",
+      tech: ["Python", "CustomTkinter", "FFmpeg", "Pillow", "Multi-threading"],
+      githubLink: "https://github.com/kamal-420",
+      demoLink: "https://github.com/kamal-420",
+      category: "Systems & IoT",
+      gradient: "from-amber-500/20 via-[#D4AF37]/10 to-transparent"
     },
     {
       title: "Portfolio Website",
@@ -61,15 +70,6 @@ const Projects: React.FC = () => {
       demoLink: "https://github.com/kamal-420",
       category: "Web Architecture",
       gradient: "from-purple-500/20 via-pink-500/10 to-transparent"
-    },
-    {
-      title: "Sense-to-Cloud: IoT with Raspberry Pi & AWS",
-      description: "Designed and implemented an end-to-end IoT pipeline connecting physical Raspberry Pi sensors to AWS cloud infrastructure for automated real-time telemetry, data ingestion, and monitoring.",
-      tech: ["IoT", "Raspberry Pi", "AWS Cloud", "Sensors", "MQTT"],
-      githubLink: "https://github.com/kamal-420",
-      demoLink: "https://github.com/kamal-420",
-      category: "Systems & IoT",
-      gradient: "from-orange-500/20 via-amber-500/10 to-transparent"
     }
   ];
 

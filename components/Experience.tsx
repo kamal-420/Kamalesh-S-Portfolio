@@ -17,15 +17,15 @@ const Experience: React.FC = () => {
       company: "LET'S GAMETECH",
       period: "Dec 2025 (30 Days)",
       location: "Coimbatore, Tamil Nadu",
-      description: "Designed, integrated, and optimized server-side logic and database models. Developed modular REST APIs, implemented secure relational/non-relational database querying, and performed performance testing for robust system integrity.",
-      technologies: ["Node.js", "Express", "MongoDB", "SQL", "DBMS", "REST APIs"]
+      description: "Trained in Node.js, MongoDB, and DBMS-based backend development through a 30-day industrial internship, applying concepts to real-world application logic and troubleshooting.",
+      technologies: ["Node.js", "Express", "MongoDB", "SQL", "DBMS", "Troubleshooting"]
     },
     {
       role: "Frontend Development Intern",
       company: "dsignz media",
       period: "Jun - Jul 2025 (21 Days)",
       location: "Coimbatore, Tamil Nadu",
-      description: "Completed comprehensive industry training on responsive web development. Built high-fidelity UI wireframes and integrated dynamic scripting models, maintaining optimal cross-browser consistency and fast render-speeds.",
+      description: "Completed a 21-day industry training program in Frontend Development, applying HTML, CSS, and JavaScript in hands-on UI exercises requiring close attention to detail.",
       technologies: ["HTML5", "CSS3", "JavaScript", "UI Optimization", "Responsive Design"]
     }
   ];

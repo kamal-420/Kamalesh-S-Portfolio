@@ -9,24 +9,28 @@ interface SkillCategory {
 const Skills: React.FC = () => {
   const skillCategories: SkillCategory[] = [
     {
-      title: "Programming Languages",
-      skills: ["Python", "Java", "C", "C++", "JavaScript"]
+      title: "Systems & Monitoring",
+      skills: ["Real-Time Data Monitoring", "Cloud Computing", "AWS (IoT)", "Microsoft Azure Fundamentals (AZ-900)"]
     },
     {
-      title: "Web Technologies",
-      skills: ["HTML5", "CSS3", "JavaScript", "React.js", "Node.js", "Express", "Bootstrap", "Streamlit", "CustomTkinter", "API Integration"]
-    },
-    {
-      title: "Databases",
+      title: "Databases & Storage",
       skills: ["SQL", "DBMS", "MySQL", "MongoDB"]
     },
     {
-      title: "Data Analysis & AI",
-      skills: ["Microsoft Excel (Formulas, Pivot Tables)", "Power BI", "Data Visualization", "Cloud Computing", "Generative AI", "OpenAI API", "NLP (Natural Language Processing)", "Prompt Engineering"]
+      title: "Programming Languages",
+      skills: ["Python", "Java", "C", "JavaScript"]
     },
     {
-      title: "Cloud & Developer Tools",
-      skills: ["Microsoft Azure (AZ-900)", "AWS (IoT)", "Git & GitHub", "VS Code", "FFmpeg"]
+      title: "Troubleshooting & Support Tools",
+      skills: ["Error Detection & Debugging", "OpenAI API Tooling", "NLP", "PDF Processing", "Diagnostic Testing"]
+    },
+    {
+      title: "Data Analysis Tools",
+      skills: ["Microsoft Excel (Formulas, Pivot Tables)", "Power BI", "Data Visualization"]
+    },
+    {
+      title: "Developer Tools & Core Concepts",
+      skills: ["Git & GitHub", "Visual Studio Code", "Data Structures", "OOP", "Problem-Solving", "Time Management"]
     }
   ];
 

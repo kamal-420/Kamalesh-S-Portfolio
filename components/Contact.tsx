@@ -31,9 +31,17 @@ const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const phoneNumber = "919677643687";
-    const text = `*New Professional Inquiry*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Message:* ${formData.message}`;
+    const text = `*New Professional Inquiry*%0A%0A*Name:* ${encodeURIComponent(formData.name)}%0A*Email:* ${encodeURIComponent(formData.email)}%0A*Message:* ${encodeURIComponent(formData.message)}`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`;
-    window.open(whatsappUrl, '_blank');
+    
+    // Use anchor dispatch to work reliably inside iframes
+    const link = document.createElement('a');
+    link.href = whatsappUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const getIcon = (name: string) => {
@@ -72,6 +80,34 @@ const Contact: React.FC = () => {
 
               <div className="flex items-center justify-between gap-4 p-1 rounded-2xl hover:bg-white/3 transition-all group max-w-sm">
                 <a 
+                  href="mailto:kamalesh.s.it.2023@snsct.org" 
+                  className="flex items-center gap-4 cursor-pointer"
+                  title="Send Email"
+                >
+                  <div className="w-10 h-10 bg-[#D4AF37]/5 border border-[#D4AF37]/20 group-hover:border-[#D4AF37]/50 rounded-xl flex items-center justify-center text-[#D4AF37] transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-500">Official Email</p>
+                    <p className="text-white text-xs sm:text-sm font-bold group-hover:text-[#D4AF37] transition-colors">kamalesh.s.it.2023@snsct.org</p>
+                  </div>
+                </a>
+                <button 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText("kamalesh.s.it.2023@snsct.org");
+                    setShowToast(true);
+                    setTimeout(() => setShowToast(false), 2000);
+                  }}
+                  className="w-8 h-8 bg-white/5 border border-white/10 hover:border-[#D4AF37]/50 rounded-lg flex items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-all ml-2"
+                  title="Copy Email"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between gap-4 p-1 rounded-2xl hover:bg-white/3 transition-all group max-w-sm">
+                <a 
                   href="mailto:kamaleshsekar9487@gmail.com" 
                   className="flex items-center gap-4 cursor-pointer"
                   title="Send Email"
@@ -80,8 +116,8 @@ const Contact: React.FC = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-500">Direct Email</p>
-                    <p className="text-white text-sm font-bold group-hover:text-[#D4AF37] transition-colors">kamaleshsekar9487@gmail.com</p>
+                    <p className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-500">Personal Email</p>
+                    <p className="text-white text-xs sm:text-sm font-bold group-hover:text-[#D4AF37] transition-colors">kamaleshsekar9487@gmail.com</p>
                   </div>
                 </a>
                 <button 

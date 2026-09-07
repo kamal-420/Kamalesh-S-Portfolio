@@ -9,6 +9,7 @@ import Certifications from './components/Certifications.tsx';
 import Experience from './components/Experience.tsx';
 import Workshops from './components/Workshops.tsx';
 import Contact from './components/Contact.tsx';
+import Footer from './components/Footer.tsx';
 import ScrollToTop from './components/ScrollToTop.tsx';
 import ScrollReveal from './components/ScrollReveal.tsx';
 import ScrollProgressBar from './components/ScrollProgressBar.tsx';
@@ -57,7 +58,7 @@ const App: React.FC = () => {
           <Hero onNavigate={handleNavigate} />
         </section>
         
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 space-y-64 pb-32">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 space-y-32 md:space-y-40 pb-24">
           <section id="about">
             <ScrollReveal>
               <About />
@@ -106,6 +107,8 @@ const App: React.FC = () => {
             </ScrollReveal>
           </section>
         </div>
+
+        <Footer onNavigate={handleNavigate} />
       </main>
       
       <ScrollToTop onNavigate={handleNavigate} />

@@ -38,54 +38,55 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({ onNavigate }) => {
 
   return (
     <div 
-      className={`fixed bottom-8 right-8 z-[70] flex flex-col items-end gap-4 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+      className={`fixed bottom-6 left-6 z-40 flex flex-col items-start gap-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
       }`}
     >
-      <div className={`flex flex-col items-end gap-3 mb-2 transition-all duration-500 origin-bottom ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-10 pointer-events-none'}`}>
+      <div className={`flex flex-col items-start gap-2.5 mb-1 transition-all duration-500 origin-bottom ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-10 pointer-events-none'}`}>
         {sections.map((section, index) => (
           <button
             key={section.id}
             onClick={() => handleAction(section.id)}
-            style={{ transitionDelay: `${index * 50}ms` }}
-            className="group flex items-center gap-3"
+            style={{ transitionDelay: `${index * 40}ms` }}
+            className="group flex items-center gap-3 cursor-pointer"
             aria-label={`Go to ${section.name}`}
           >
-            <span className="bg-[#0a0a2e] dark:bg-zinc-800 text-[#D4AF37] px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-xl border border-[#D4AF37]/30 opacity-0 group-hover:opacity-100 transition-all">
-              {section.name}
-            </span>
-            <div className="w-11 h-11 rounded-full bg-[var(--card-bg)] backdrop-blur-md border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0a0a2e] transition-all shadow-lg hover:scale-110 active:scale-95">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <div className="w-10 h-10 rounded-full bg-[var(--card-bg)] backdrop-blur-md border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0a0a2e] transition-all shadow-lg hover:scale-110 active:scale-95">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d={section.icon}></path>
               </svg>
             </div>
+            <span className="bg-[#0a0a2e] dark:bg-zinc-800 text-[#D4AF37] px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-xl border border-[#D4AF37]/30 opacity-0 group-hover:opacity-100 transition-all pointer-events-none">
+              {section.name}
+            </span>
           </button>
         ))}
         
         <button
           onClick={() => handleAction('hero')}
-          className="group flex items-center gap-3"
+          className="group flex items-center gap-3 cursor-pointer"
           aria-label="Scroll to top"
         >
-          <span className="bg-[#0a0a2e] dark:bg-zinc-800 text-[#D4AF37] px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-xl border border-[#D4AF37]/30 opacity-0 group-hover:opacity-100 transition-all">
-            Ascend
-          </span>
-          <div className="w-11 h-11 rounded-full bg-[#D4AF37] flex items-center justify-center text-[#0a0a2e] transition-all shadow-lg hover:scale-110 active:scale-95">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <div className="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center text-[#0a0a2e] transition-all shadow-lg hover:scale-110 active:scale-95">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <path d="m18 15-6-6-6 6"></path>
             </svg>
           </div>
+          <span className="bg-[#0a0a2e] dark:bg-zinc-800 text-[#D4AF37] px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-xl border border-[#D4AF37]/30 opacity-0 group-hover:opacity-100 transition-all pointer-events-none">
+            Top
+          </span>
         </button>
       </div>
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`relative w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:shadow-[0_15px_40px_rgba(212,175,55,0.6)] ${
+        className={`relative w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-[0_10px_30px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_40px_rgba(212,175,55,0.5)] cursor-pointer ${
           isOpen ? 'bg-[#0a0a2e] dark:bg-zinc-800 text-[#D4AF37] rotate-90' : 'bg-[#D4AF37] text-[#0a0a2e]'
         }`}
         aria-label="Toggle Quick Navigation"
+        title="Quick Navigation"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           {isOpen ? (
             <path d="M18 6 6 18M6 6l12 12"></path>
           ) : (

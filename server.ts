@@ -174,48 +174,6 @@ async function startServer() {
     }
   });
 
-  // API endpoint to upload or update profile photo
-  app.post("/api/upload-photo", (req, res) => {
-    try {
-      const { imageBase64 } = req.body;
-      if (!imageBase64 || typeof imageBase64 !== "string") {
-        return res.status(400).json({ error: "Missing imageBase64 data." });
-      }
-      
-      // Extract base64 part
-      const matches = imageBase64.match(/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/);
-      let buffer: Buffer;
-      if (matches) {
-        buffer = Buffer.from(matches[2], 'base64');
-      } else {
-        buffer = Buffer.from(imageBase64, 'base64');
-      }
-      
-      const publicDir = path.join(process.cwd(), 'public');
-      if (!fs.existsSync(publicDir)) {
-        fs.mkdirSync(publicDir, { recursive: true });
-      }
-      
-      const targetPath = path.join(publicDir, 'kamalesh_photo.jpg');
-      fs.writeFileSync(targetPath, buffer);
-
-      // Also sync to dist/ if it exists (e.g. running compiled production server)
-      const distDir = path.join(process.cwd(), 'dist');
-      if (fs.existsSync(distDir)) {
-        try {
-          fs.writeFileSync(path.join(distDir, 'kamalesh_photo.jpg'), buffer);
-        } catch {
-          // Ignore dist write errors in dev mode
-        }
-      }
-      
-      res.json({ success: true, url: '/kamalesh_photo.jpg?t=' + Date.now() });
-    } catch (err: any) {
-      console.error("Error saving uploaded photo:", err);
-      res.status(500).json({ error: err.message || "Failed to save photo" });
-    }
-  });
-
   // Vite middleware for development with full HMR WebSocket integration
   if (process.env.NODE_ENV !== "production") {
     // Dynamically load Vite only in development to prevent module resolution errors in production containers

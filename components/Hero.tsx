@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DEFAULT_PHOTO } from '../src/photoData.ts';
 
 interface HeroProps {
@@ -9,84 +9,12 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const [scrollY, setScrollY] = useState(0);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('Copied to Clipboard!');
-  const [photoUrl, setPhotoUrl] = useState<string>(() => {
-    return localStorage.getItem('kamalesh_photo') || DEFAULT_PHOTO;
-  });
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Global paste handler: if user copies an image and presses Ctrl+V anywhere, it seamlessly updates photo
-  useEffect(() => {
-    const handlePaste = (e: ClipboardEvent) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf('image') !== -1) {
-          const file = items[i].getAsFile();
-          if (file) {
-            processImageFile(file);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('paste', handlePaste);
-    return () => window.removeEventListener('paste', handlePaste);
-  }, []);
-
-  const processImageFile = (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const base64Data = event.target?.result as string;
-      if (base64Data) {
-        setPhotoUrl(base64Data);
-        localStorage.setItem('kamalesh_photo', base64Data);
-        setToastMessage('Photo Updated Successfully!');
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2500);
-
-        try {
-          await fetch('/api/upload-photo', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ imageBase64: base64Data })
-          });
-        } catch (err) {
-          console.warn('Failed to sync photo to server:', err);
-        }
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      processImageFile(file);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      processImageFile(file);
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
 
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -198,29 +126,12 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         {/* 3:4 portrait aspect ratio, showing only the person standing confidently in black suit with white shirt */}
         {/* No upload buttons, no icons, no instructions, no borders, no cards, no UI elements */}
         <div className="lg:col-span-5 flex justify-center items-center">
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            onChange={handleFileChange} 
-            accept="image/*" 
-            className="hidden" 
-          />
-          <div 
-            onClick={() => fileInputRef.current?.click()}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl cursor-pointer"
-          >
+          <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl">
             <img 
-              src={photoUrl} 
+              src={DEFAULT_PHOTO} 
               alt="Kamalesh S - Systems Support & Software Engineer" 
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center"
-              onError={() => {
-                if (photoUrl !== DEFAULT_PHOTO) {
-                  setPhotoUrl(DEFAULT_PHOTO);
-                }
-              }}
+              className="w-full h-full object-cover object-center pointer-events-none select-none"
             />
           </div>
         </div>

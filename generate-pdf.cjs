@@ -56,7 +56,7 @@ doc.font('Times-Roman')
 
 doc.moveDown(0.15);
 
-const linksInfo = 'LinkedIn: linkedin.com/in/kamalesh-s-56aa60330 | GitHub: github.com/kamal-420 | Portfolio: kamal-s.netlify.app';
+const linksInfo = 'LinkedIn: linkedin.com/in/kamalesh-sekar-56aa60330 | GitHub: github.com/kamal-420 | Portfolio: kamal-s.netlify.app';
 doc.text(linksInfo, { align: 'center' });
 
 doc.moveDown(0.35);

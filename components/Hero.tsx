@@ -164,13 +164,21 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </div>
 
           {/* Call to Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto pt-2">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 w-full sm:w-auto pt-2">
             <button 
               onClick={() => onNavigate('projects')}
-              className="h-11 px-6 bg-[#D4AF37] text-[#050510] text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-[#bfa032] transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
+              className="h-11 px-6 bg-[#D4AF37] text-[#050510] text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-[#bfa032] transition-colors flex items-center justify-center gap-2 w-full sm:w-auto cursor-pointer"
             >
               <span>View Projects</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+
+            <button 
+              onClick={() => onNavigate('contact')}
+              className="h-11 px-6 border border-white/15 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-white/5 hover:border-[#D4AF37]/50 transition-all flex items-center justify-center gap-2 bg-white/3 w-full sm:w-auto cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span>Contact Me</span>
             </button>
 
             <a 
@@ -178,19 +186,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               download="Kamalesh_S_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="h-11 px-6 border border-white/15 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-white/5 hover:border-[#D4AF37]/50 transition-all flex items-center justify-center gap-2 bg-white/3 w-full sm:w-auto cursor-pointer"
+              className="h-11 px-6 border border-[#D4AF37]/40 text-[#D4AF37] hover:text-white text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all flex items-center justify-center gap-2 bg-white/3 w-full sm:w-auto cursor-pointer"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
               <span>Download Resume</span>
             </a>
-
-            <button 
-              onClick={() => onNavigate('contact')}
-              className="h-11 px-6 border border-white/15 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-lg hover:bg-white/5 hover:border-[#D4AF37]/50 transition-all flex items-center justify-center gap-2 bg-white/3 w-full sm:w-auto"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-              <span>Contact Me</span>
-            </button>
           </div>
         </div>
 

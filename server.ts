@@ -2,13 +2,18 @@ import express from "express";
 import http from "http";
 import path from "path";
 import fs from "fs";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import { buildSystemInstruction, generateSmartFallback } from "./server/portfolioContext.ts";
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
   const server = http.createServer(app);
+
+  // Health check endpoints for deployment probes & container readiness (checked first)
+  app.get(["/api/health", "/healthz", "/_ah/health"], (req, res) => {
+    res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+  });
 
   // Middleware
   app.use(express.json({ limit: '30mb' }));
@@ -27,120 +32,144 @@ async function startServer() {
     });
   };
 
-  // API endpoint for chatbot
+  // API endpoint for chatbot (supports both SSE Streaming and structured JSON)
   app.post("/api/chat", async (req, res) => {
+    const isSseRequested = req.headers.accept?.includes("text/event-stream");
+
     try {
       const { messages } = req.body;
       if (!messages || !Array.isArray(messages)) {
         return res.status(400).json({ error: "Invalid request. 'messages' must be an array of objects." });
       }
 
+      // Filter to only non-empty valid messages
+      const validMessages = messages.filter(
+        (m: any) => m && typeof m.content === "string" && m.content.trim().length > 0
+      );
+
+      if (validMessages.length === 0) {
+        return res.status(400).json({ error: "No valid message content provided." });
+      }
+
       const ai = getAI();
 
       // Format messages into Gemini conversation format
-      const contents = messages.map((msg: any) => ({
+      // Gemini contents must start with a 'user' turn
+      let contents = validMessages.map((msg: any) => ({
         role: msg.role === "assistant" ? "model" : "user",
-        parts: [{ text: msg.content }]
+        parts: [{ text: msg.content.trim() }]
       }));
 
-      const systemInstruction = `You are "K-Bot", the friendly, intelligent Virtual AI Assistant for Kamalesh S's personal portfolio website.
-Your objective is to help recruiters, engineering managers, and visitors learn about Kamalesh's profile, projects, academic records, and skills in a professional and engaging manner.
+      // Strip leading model greetings so the first turn is always 'user'
+      while (contents.length > 0 && contents[0].role === "model") {
+        contents.shift();
+      }
 
-Who is Kamalesh S?
-- Role & Focus: B.Tech Information Technology Graduate | Aspiring Control Room Specialist / IT Systems Support.
-- Professional Summary: Hands-on experience in systems monitoring, troubleshooting, and cloud-based real-time data tracking, backed by verified training in Cloud Computing, Microsoft Azure Fundamentals (AZ-900), and Computer Systems Security.
-- Education:
-  * B.Tech in Information Technology from SNS College of Technology, Coimbatore (2024 – 2027, CGPA: 7.52).
-  * Diploma in Computer Science Engineering from Muthayammal Polytechnic College, Namakkal (2021 – 2024, 84%).
-- Location: Kallakurichi / Coimbatore, Tamil Nadu, India.
-- Career Goal: Seeking a Control Room Specialist / IT Systems Support role in a fast-paced, high-availability operational environment.
-- Core Technical Skills:
-  * Systems & Monitoring: Real-Time Data Monitoring, Cloud Computing, AWS (IoT), Microsoft Azure Fundamentals (AZ-900)
-  * Databases: SQL, DBMS, MySQL, MongoDB
-  * Programming Languages: Python, Java, C, JavaScript
-  * Troubleshooting & Support Tools: Error Detection & Debugging, OpenAI API Tooling, NLP, PDF Processing, Diagnostic Testing
-  * Data Analysis Tools: Microsoft Excel (Formulas, Pivot Tables), Power BI, Data Visualization
-  * Developer Tools & Core Concepts: Git & GitHub, Visual Studio Code, Data Structures, OOP, Problem-Solving, Time Management
-- Key Projects:
-  1. Sense-to-Cloud: Real-Time IoT Monitoring connecting Raspberry Pi sensors to AWS cloud services for continuous, real-time data monitoring and alerts.
-  2. AI Code Assistant: Error Detection & Diagnostic Tool using OpenAI API & Streamlit that detects code errors, explains root causes, and suggests fixes.
-  3. AI ATS Resume Analyzer: Python and Streamlit tool analyzing documents against rule sets, identifying gaps, and generating compatibility scores.
-  4. SmartCompress: Python desktop batch compressor with CustomTkinter, FFmpeg, Pillow, multi-threading, and live status tracking.
-- Industrial Experience:
-  * Backend Development Intern at LET'S GAMETECH, Coimbatore (Dec 2025, 30 Days): Node.js, MongoDB, and DBMS backend logic and troubleshooting.
-  * Frontend Development Intern at dsignz media, Coimbatore (Jun – Jul 2025, 21 Days): Industry training in responsive frontend engineering and UI execution.
-- Certifications:
-  * Microsoft Azure Fundamentals (AZ-900) — Cursa
-  * Cloud Computing: Beginner to Advanced — University of Illinois, via Cursa
-  * Computer Systems Security — MIT, via Cursa
-  * Full Stack Web Development — Cursa
-  * Career Essentials in Generative AI — Microsoft & LinkedIn Learning
-  * Diploma in Computer Application (DCA), Grade A — CSC | Computer Hardware & Networking and Android Development — Value Added Institute, Salem
-- Contact Details:
-  * Official Email: kamalesh.s.it.2023@snsct.org
-  * Personal Email: kamaleshsekar9487@gmail.com
-  * Phone: 9677643687
-  * GitHub: https://github.com/kamal-420
-  * LinkedIn: https://linkedin.com/in/kamalesh-s-56aa60330
-  * Portfolio: https://kamalesh.ai.studio (also https://kamal-s.netlify.app)
+      // If only assistant greetings were present, synthesize a prompt from the latest message
+      if (contents.length === 0) {
+        contents = [{ role: "user", parts: [{ text: validMessages[validMessages.length - 1].content.trim() }] }];
+      }
 
-Response Guidelines:
-1. Speak as "K-Bot", Kamalesh's Virtual AI assistant. Always remain professional, polite, and enthusiastic.
-2. Answer questions concisely with clear formatting (markdown bullet points, bold key phrases).
-3. If asked about resume download, inform them they can click "Download Resume" in the header to get his 1-page resume PDF directly.
-4. Keep the tone recruiter-focused, highlighting his real-time systems monitoring, troubleshooting, cloud competence, and database reliability.
-5. If asked for contact info, provide both kamalesh.s.it.2023@snsct.org and kamaleshsekar9487@gmail.com, as well as his phone number 9677643687.`;
+      const systemInstruction = buildSystemInstruction();
+      const latestUserQuery = validMessages[validMessages.length - 1]?.content || "";
 
-      let response;
-      const modelsToTry = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-2.5-flash"];
-      let lastError: any = null;
+      // ----------------------------------------------------
+      // PATH A: Server-Sent Events (SSE) Streaming
+      // ----------------------------------------------------
+      if (isSseRequested) {
+        res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+        res.setHeader("Cache-Control", "no-cache, no-transform");
+        res.setHeader("Connection", "keep-alive");
+        res.setHeader("X-Accel-Buffering", "no");
+        if (typeof (res as any).flushHeaders === "function") {
+          (res as any).flushHeaders();
+        }
 
-      if (ai) {
-        for (const modelName of modelsToTry) {
+        let streamSucceeded = false;
+
+        if (ai) {
           try {
-            response = await ai.models.generateContent({
-              model: modelName,
+            const stream = await ai.models.generateContentStream({
+              model: "gemini-2.5-flash",
               contents: contents,
               config: {
                 systemInstruction: systemInstruction,
                 temperature: 0.7,
               }
             });
-            if (response && response.text) {
-              break;
+
+            for await (const chunk of stream) {
+              if (chunk.text && chunk.text.length > 0) {
+                res.write(`data: ${JSON.stringify({ chunk: chunk.text })}\n\n`);
+                streamSucceeded = true;
+              }
             }
-          } catch (err: any) {
-            lastError = err;
+          } catch (streamErr: any) {
+            console.warn("SSE Gemini stream encountered error, falling back to smart knowledge base:", streamErr?.message || streamErr);
           }
+        }
+
+        // If streaming didn't produce tokens, stream the intelligent knowledge fallback
+        if (!streamSucceeded) {
+          const fallback = generateSmartFallback(latestUserQuery);
+          res.write(`data: ${JSON.stringify({ chunk: fallback })}\n\n`);
+        }
+
+        res.write("data: [DONE]\n\n");
+        return res.end();
+      }
+
+      // ----------------------------------------------------
+      // PATH B: Standard Structured JSON Response
+      // ----------------------------------------------------
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      let responseText: string | null = null;
+
+      if (ai) {
+        let timer: any;
+        const timeoutPromise = new Promise((_, reject) => {
+          timer = setTimeout(() => reject(new Error("Gemini timeout")), 7000);
+        });
+
+        try {
+          const resAI: any = await Promise.race([
+            ai.models.generateContent({
+              model: "gemini-2.5-flash",
+              contents: contents,
+              config: {
+                systemInstruction: systemInstruction,
+                temperature: 0.7,
+              }
+            }),
+            timeoutPromise
+          ]);
+          clearTimeout(timer);
+          if (resAI && resAI.text && resAI.text.trim().length > 0) {
+            responseText = resAI.text.trim();
+          }
+        } catch (err: any) {
+          clearTimeout(timer);
+          console.warn("Gemini generateContent timed out or skipped:", err?.message || err);
         }
       }
 
-      if (response && response.text) {
-        return res.json({ content: response.text });
+      if (responseText) {
+        return res.json({ content: responseText });
       }
 
-      // Intelligent local knowledge base fallback when Gemini API hits quota limits or network delays
-      const userQuery = messages[messages.length - 1]?.content?.toLowerCase() || "";
-      let fallbackText = "Hello! I am K-Bot, Kamalesh S's virtual AI assistant. ";
-      if (userQuery.includes("project") || userQuery.includes("built")) {
-        fallbackText += "Kamalesh has built several impactful projects including:\n- **Sense-to-Cloud**: Real-Time IoT monitoring connecting Raspberry Pi sensors to AWS Cloud for live telemetry and alerts.\n- **AI Code Assistant**: Error detection & diagnostic tool using OpenAI API & Streamlit that identifies code errors and proposes fixes.\n- **AI ATS Resume Analyzer**: Document evaluation tool analyzing resume keywords, gaps, and compatibility scores.\n- **SmartCompress**: Python desktop batch compression utility with multithreading and live tracking.";
-      } else if (userQuery.includes("skill") || userQuery.includes("technical")) {
-        fallbackText += "Kamalesh's core technical expertise spans:\n- **Systems & Monitoring**: Real-Time Data Monitoring, Cloud Computing, AWS (IoT), Azure Fundamentals (AZ-900)\n- **Databases**: SQL, DBMS, MySQL, MongoDB\n- **Languages**: Python, Java, C, JavaScript\n- **Tools**: Git, GitHub, VS Code, Power BI, Excel (Pivot Tables/Formulas)";
-      } else if (userQuery.includes("contact") || userQuery.includes("email") || userQuery.includes("phone")) {
-        fallbackText += "You can reach Kamalesh at:\n- **Official Email**: kamalesh.s.it.2023@snsct.org\n- **Personal Email**: kamaleshsekar9487@gmail.com\n- **Phone**: +91 9677643687\n- **LinkedIn**: linkedin.com/in/kamalesh-s-56aa60330\n- **GitHub**: github.com/kamal-420";
-      } else if (userQuery.includes("education") || userQuery.includes("college") || userQuery.includes("degree")) {
-        fallbackText += "Kamalesh's academic background:\n- **B.Tech in Information Technology**: SNS College of Technology, Coimbatore (2024 – 2027, CGPA: 7.52)\n- **Diploma in Computer Science Engineering**: Muthayammal Polytechnic College, Namakkal (2021 – 2024, 84%)";
-      } else if (userQuery.includes("resume") || userQuery.includes("cv")) {
-        fallbackText += "You can download Kamalesh's verified 1-page ATS Resume PDF anytime by clicking the **'Download Resume'** button in the top navigation bar or the Hero section!";
-      } else {
-        fallbackText += "Kamalesh S is a B.Tech IT graduate and aspiring Control Room Specialist / IT Systems Support engineer with hands-on experience in real-time systems monitoring, cloud infrastructure, and troubleshooting. Feel free to ask about his projects, skills, education, or contact details!";
-      }
-
+      const fallbackText = generateSmartFallback(latestUserQuery);
       return res.json({ content: fallbackText });
+
     } catch (error: any) {
       console.error("Chatbot processing error:", error);
-      return res.json({ 
-        content: "Hello! I am K-Bot. Kamalesh is a B.Tech IT graduate specialized in Systems Monitoring, Cloud Infrastructure, and IT Support. Please explore his projects above or reach him at kamaleshsekar9487@gmail.com." 
+      if (isSseRequested && !res.headersSent) {
+        res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+        res.write(`data: ${JSON.stringify({ chunk: "Hello! I am K-Bot, Kamalesh S's assistant. How can I help you explore his portfolio?" })}\n\n`);
+        res.write("data: [DONE]\n\n");
+        return res.end();
+      }
+      return res.status(200).json({ 
+        content: "Hello! I am K-Bot. Kamalesh is a B.Tech IT scholar specialized in Systems Monitoring, Cloud Infrastructure, and IT Support. Please explore his portfolio sections or reach him directly at kamaleshsekar9487@gmail.com." 
       });
     }
   });
@@ -169,6 +198,16 @@ Response Guidelines:
       
       const targetPath = path.join(publicDir, 'kamalesh_photo.jpg');
       fs.writeFileSync(targetPath, buffer);
+
+      // Also sync to dist/ if it exists (e.g. running compiled production server)
+      const distDir = path.join(process.cwd(), 'dist');
+      if (fs.existsSync(distDir)) {
+        try {
+          fs.writeFileSync(path.join(distDir, 'kamalesh_photo.jpg'), buffer);
+        } catch {
+          // Ignore dist write errors in dev mode
+        }
+      }
       
       res.json({ success: true, url: '/kamalesh_photo.jpg?t=' + Date.now() });
     } catch (err: any) {
@@ -179,9 +218,8 @@ Response Guidelines:
 
   // Vite middleware for development with full HMR WebSocket integration
   if (process.env.NODE_ENV !== "production") {
-    // When served through Cloud Run / reverse proxy, public traffic arrives on port 443 (HTTPS)
-    // Connecting HMR directly to the shared HTTP server with clientPort: 443 ensures
-    // the browser connects to wss://<domain>:443/ without port mismatch or trailing colon bugs.
+    // Dynamically load Vite only in development to prevent module resolution errors in production containers
+    const { createServer: createViteServer } = await import("vite");
     const hmrClientPort = (process.env.APP_URL && process.env.APP_URL.startsWith('https://')) ? 443 : 3000;
 
     const vite = await createViteServer({
@@ -196,8 +234,19 @@ Response Guidelines:
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
+    // Production: serve built static files from dist
+    const distPath = fs.existsSync(path.join(__dirname, 'index.html'))
+      ? __dirname
+      : path.join(process.cwd(), 'dist');
+
     app.use(express.static(distPath));
+
+    // Handle unknown API routes with JSON 404 before SPA fallback
+    app.all('/api/*all', (req, res) => {
+      res.status(404).json({ error: "API route not found" });
+    });
+
+    // SPA fallback: send index.html for all other routes
     app.get('*all', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });

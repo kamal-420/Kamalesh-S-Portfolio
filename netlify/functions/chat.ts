@@ -1,21 +1,31 @@
 import { GoogleGenAI } from "@google/genai";
 import { buildSystemInstruction, generateSmartFallback } from "../../server/portfolioContext.ts";
 
-// Initialize Gemini client server-side safely
-const getAI = () => {
+/**
+ * Netlify Serverless Function: POST /api/chat
+ *
+ * Security:
+ * - Reads GEMINI_API_KEY exclusively from process.env.GEMINI_API_KEY.
+ * - Absolutely zero hard-coded API keys, tokens, or fallback secrets.
+ * - Never prints or exposes the API key in logs or responses.
+ */
+
+const getAI = (): GoogleGenAI | null => {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return null;
+  if (!apiKey || typeof apiKey !== "string" || !apiKey.trim()) {
+    return null;
+  }
   try {
     return new GoogleGenAI({
-      apiKey: apiKey,
+      apiKey: apiKey.trim(),
       httpOptions: {
         headers: {
-          'User-Agent': 'aistudio-build-netlify',
-        }
-      }
+          "User-Agent": "aistudio-build-netlify",
+        },
+      },
     });
   } catch (err) {
-    console.error("Failed to initialize GoogleGenAI in Netlify function:", err);
+    console.error("Failed to initialize GoogleGenAI client in Netlify function");
     return null;
   }
 };
@@ -26,8 +36,8 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
 };
 
-export const handler = async (event: any, context: any) => {
-  // Handle CORS Preflight
+export const handler = async (event: any) => {
+  // CORS Preflight
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
@@ -36,7 +46,7 @@ export const handler = async (event: any, context: any) => {
     };
   }
 
-  // Handle Health / Discovery probe
+  // Health / Probe check
   if (event.httpMethod === "GET") {
     return {
       statusCode: 200,
@@ -71,14 +81,14 @@ export const handler = async (event: any, context: any) => {
         : event.body;
       try {
         body = JSON.parse(rawBody);
-      } catch (parseErr) {
+      } catch {
         return {
           statusCode: 400,
           headers: {
             ...corsHeaders,
             "Content-Type": "application/json; charset=utf-8",
           },
-          body: JSON.stringify({ error: "Invalid JSON body provided." }),
+          body: JSON.stringify({ error: "Invalid JSON payload provided." }),
         };
       }
     }
@@ -116,7 +126,7 @@ export const handler = async (event: any, context: any) => {
     // Map conversation for Gemini
     let contents = validMessages.map((msg: any) => ({
       role: msg.role === "assistant" ? "model" : "user",
-      parts: [{ text: msg.content.trim() }]
+      parts: [{ text: msg.content.trim() }],
     }));
 
     // First turn for Gemini must be 'user'
@@ -134,7 +144,7 @@ export const handler = async (event: any, context: any) => {
     if (ai) {
       let timer: any;
       const timeoutPromise = new Promise((_, reject) => {
-        timer = setTimeout(() => reject(new Error("Gemini timeout in Netlify function")), 8000);
+        timer = setTimeout(() => reject(new Error("Gemini timeout in Netlify function")), 8500);
       });
 
       try {
@@ -145,21 +155,21 @@ export const handler = async (event: any, context: any) => {
             config: {
               systemInstruction: systemInstruction,
               temperature: 0.7,
-            }
+            },
           }),
-          timeoutPromise
+          timeoutPromise,
         ]);
         clearTimeout(timer);
 
         if (resAI && resAI.text && resAI.text.trim().length > 0) {
           responseText = resAI.text.trim();
         }
-      } catch (geminiErr: any) {
+      } catch {
         clearTimeout(timer);
-        console.warn("Netlify function Gemini generateContent timed out or skipped:", geminiErr?.message || geminiErr);
       }
     }
 
+    // High-accuracy portfolio knowledge engine fallback
     if (!responseText) {
       responseText = generateSmartFallback(latestUserQuery);
     }
@@ -174,10 +184,9 @@ export const handler = async (event: any, context: any) => {
         content: responseText,
       }),
     };
-
-  } catch (error: any) {
-    console.error("Netlify function /api/chat error:", error);
-    const fallbackText = "Hello! I am K-Bot. Kamalesh S is a B.Tech IT scholar specializing in Real-Time Systems Monitoring, Cloud Infrastructure, and IT Support. Please explore his projects and resume on this portfolio!";
+  } catch {
+    const fallbackText =
+      "Hello! I am K-Bot. Kamalesh S is a B.Tech IT scholar specializing in Real-Time Systems Monitoring, Cloud Infrastructure, and IT Support. Feel free to ask about his projects, skills, certifications, or resume!";
     return {
       statusCode: 200,
       headers: {

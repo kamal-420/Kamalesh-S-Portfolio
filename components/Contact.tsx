@@ -18,7 +18,7 @@ const Contact: React.FC = () => {
 
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/kamal-420", icon: "github" },
-    { name: "LinkedIn", href: "https://www.linkedin.com/in/kamalesh-s-56aa60330/", icon: "linkedin" },
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/kamalesh-sekar-56aa60330", icon: "linkedin" },
     { name: "LeetCode", href: "https://leetcode.com/u/kamal-2005/", icon: "code" },
     { name: "Instagram", href: "https://www.instagram.com/_.alone_kdboy._?igsh=Z2tsNTNyM2FwbDA2", icon: "instagram" }
   ];

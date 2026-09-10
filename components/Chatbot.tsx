@@ -22,6 +22,8 @@ const Chatbot: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isProcessingRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Auto scroll to bottom
   const scrollToBottom = () => {
@@ -36,52 +38,239 @@ const Chatbot: React.FC = () => {
     }
   }, [messages, isOpen]);
 
-  const handleSendMessage = async (text: string) => {
-    if (!text.trim() || isLoading) return;
-
-    setErrorMsg(null);
-    const userMessage: ChatMessage = {
-      role: 'user',
-      content: text,
-      timestamp: new Date()
+  // Clean up any ongoing request on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
     };
+  }, []);
 
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
-    setIsLoading(true);
+  const sendChatRequest = async (chatHistory: { role: string; content: string }[]) => {
+    // Abort previous pending request if any
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     try {
-      // Send the entire conversation history (excluding timestamps)
-      const chatHistory = [...messages, userMessage].map(m => ({
-        role: m.role,
-        content: m.content
-      }));
-
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json, text/event-stream'
         },
-        body: JSON.stringify({ messages: chatHistory })
+        body: JSON.stringify({ messages: chatHistory }),
+        signal: controller.signal
       });
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || 'Failed to get a response from K-Bot.');
+      clearTimeout(timeoutId);
+
+      // Check if response object exists
+      if (!response) {
+        throw new Error("Unable to establish connection to K-Bot service. Please check your network.");
       }
 
-      const data = await response.json();
-      
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.content,
-        timestamp: new Date()
-      }]);
+      const contentType = response.headers.get('content-type') || '';
+
+      // Handle Server-Sent Events (SSE) stream if server sent stream
+      if (response.ok && contentType.includes('text/event-stream') && response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let accumulatedReply = '';
+        let assistantMessageAdded = false;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunkText = decoder.decode(value, { stream: true });
+          const lines = chunkText.split('\n');
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed || !trimmed.startsWith('data:')) continue;
+
+            const payload = trimmed.replace(/^data:\s*/, '');
+            if (payload === '[DONE]') {
+              break;
+            }
+
+            try {
+              const parsed = JSON.parse(payload);
+              if (parsed && typeof parsed.chunk === 'string') {
+                accumulatedReply += parsed.chunk;
+
+                if (!assistantMessageAdded) {
+                  assistantMessageAdded = true;
+                  setIsLoading(false);
+                  setMessages(prev => [
+                    ...prev,
+                    {
+                      role: 'assistant',
+                      content: accumulatedReply,
+                      timestamp: new Date()
+                    }
+                  ]);
+                } else {
+                  setMessages(prev => {
+                    if (prev.length === 0) return prev;
+                    const next = [...prev];
+                    next[next.length - 1] = {
+                      ...next[next.length - 1],
+                      content: accumulatedReply
+                    };
+                    return next;
+                  });
+                }
+              }
+            } catch {
+              // Ignore partial stream line chunks
+            }
+          }
+        }
+
+        if (accumulatedReply.trim().length > 0) {
+          setErrorMsg(null);
+          return;
+        }
+      }
+
+      // Read response body as raw text first - NEVER blindly call response.json()
+      let rawText = '';
+      try {
+        rawText = await response.text();
+      } catch (readErr: any) {
+        throw new Error("Network error while reading K-Bot response: " + (readErr?.message || "Connection interrupted."));
+      }
+
+      // Check for completely empty response
+      if (!rawText || !rawText.trim()) {
+        if (!response.ok) {
+          throw new Error(`K-Bot server returned HTTP error ${response.status} (${response.statusText || 'Error'}) with empty response.`);
+        }
+        throw new Error("K-Bot returned an empty response. Please tap 'Retry' or try asking again.");
+      }
+
+      // Safely parse JSON from raw text
+      let data: any = null;
+      try {
+        data = JSON.parse(rawText);
+      } catch (parseErr) {
+        const trimmed = rawText.trim();
+        // If 200 OK and plaintext response (e.g. string message, but not an HTML 404/500 document)
+        if (response.ok && !trimmed.startsWith('<') && !trimmed.startsWith('<!DOCTYPE')) {
+          data = { content: trimmed };
+        } else {
+          if (trimmed.startsWith('<') || trimmed.startsWith('<!DOCTYPE')) {
+            throw new Error(`Deployment API route error (${response.status}): The server returned an HTML page instead of JSON. Check Netlify function routing.`);
+          }
+          throw new Error(`Invalid JSON received from K-Bot endpoint (HTTP ${response.status}). Expected { content: "..." }.`);
+        }
+      }
+
+      // Check HTTP error status codes (400, 401, 403, 404, 429, 500)
+      if (!response.ok) {
+        const serverError = data?.error || data?.message || data?.content;
+        if (serverError && typeof serverError === 'string') {
+          throw new Error(serverError);
+        }
+        if (response.status === 400) {
+          throw new Error("Invalid request sent to K-Bot (HTTP 400). Please rephrase or try again.");
+        }
+        if (response.status === 401 || response.status === 403) {
+          throw new Error(`Authentication/Access error (HTTP ${response.status}). Please verify API credentials.`);
+        }
+        if (response.status === 404) {
+          throw new Error("K-Bot endpoint not found (HTTP 404). Please ensure the Netlify function /api/chat is deployed.");
+        }
+        if (response.status === 429) {
+          throw new Error("K-Bot rate limit reached (HTTP 429). Please wait a few moments and try again.");
+        }
+        if (response.status >= 500) {
+          throw new Error(`K-Bot server error (HTTP ${response.status}). Please try again shortly.`);
+        }
+        throw new Error(`K-Bot service returned HTTP ${response.status} (${response.statusText || 'Unknown'}).`);
+      }
+
+      // Validate successful JSON payload structure: { content: "..." }
+      const aiReply = data?.content?.trim();
+      if (!aiReply) {
+        throw new Error("K-Bot response contained no message content. Please try asking again.");
+      }
+
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: aiReply,
+          timestamp: new Date()
+        }
+      ]);
+      setErrorMsg(null);
+
     } catch (err: any) {
-      setErrorMsg(err.message || 'An unexpected connection issue occurred.');
+      clearTimeout(timeoutId);
+      if (err.name === 'AbortError') {
+        setErrorMsg("Request timed out: K-Bot took longer than 15 seconds to respond. Please check your connection or tap retry.");
+      } else {
+        const rawMsg = err?.message || 'A network error occurred while reaching K-Bot.';
+        setErrorMsg(rawMsg);
+      }
     } finally {
+      clearTimeout(timeoutId);
+      abortControllerRef.current = null;
+      isProcessingRef.current = false;
       setIsLoading(false);
     }
+  };
+
+  const handleSendMessage = async (text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed || isLoading || isProcessingRef.current) return;
+
+    isProcessingRef.current = true;
+    setErrorMsg(null);
+    setIsLoading(true);
+
+    const userMessage: ChatMessage = {
+      role: 'user',
+      content: trimmed,
+      timestamp: new Date()
+    };
+
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setInputValue('');
+
+    const chatHistory = newMessages.map(m => ({
+      role: m.role,
+      content: m.content
+    }));
+
+    await sendChatRequest(chatHistory);
+  };
+
+  const handleRetry = async () => {
+    if (isLoading || isProcessingRef.current) return;
+
+    // Check that we have messages to retry
+    if (messages.length === 0) return;
+
+    isProcessingRef.current = true;
+    setErrorMsg(null);
+    setIsLoading(true);
+
+    const chatHistory = messages.map(m => ({
+      role: m.role,
+      content: m.content
+    }));
+
+    await sendChatRequest(chatHistory);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -242,8 +431,9 @@ const Chatbot: React.FC = () => {
                 <p className="font-bold">K-Bot encountered an issue:</p>
                 <p>{errorMsg}</p>
                 <button 
-                  onClick={() => handleSendMessage(messages[messages.length - 1]?.content || '')}
-                  className="self-start text-[10px] underline font-bold hover:text-white uppercase tracking-wider"
+                  onClick={handleRetry}
+                  disabled={isLoading}
+                  className="self-start text-[10px] underline font-bold hover:text-white uppercase tracking-wider disabled:opacity-50 cursor-pointer"
                 >
                   Retry Message
                 </button>
@@ -271,7 +461,8 @@ const Chatbot: React.FC = () => {
                 <button
                   key={i}
                   onClick={() => handleSendMessage(sug.text)}
-                  className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-white/3 hover:bg-[#D4AF37]/10 border border-white/5 hover:border-[#D4AF37]/30 text-[10px] text-zinc-400 hover:text-[#D4AF37] font-semibold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap"
+                  disabled={isLoading}
+                  className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-white/3 hover:bg-[#D4AF37]/10 border border-white/5 hover:border-[#D4AF37]/30 text-[10px] text-zinc-400 hover:text-[#D4AF37] font-semibold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <SugIcon className="w-3 h-3" />
                   <span>{sug.text}</span>
